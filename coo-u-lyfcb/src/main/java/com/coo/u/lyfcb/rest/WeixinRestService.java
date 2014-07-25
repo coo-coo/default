@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/wx")
 public class WeixinRestService {
-	
+	 
 }
