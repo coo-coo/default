@@ -4,12 +4,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * 卡号信息业务维护
+ * WeiXin业务服务
  * @author boqing.shen
- *
+ * 
  */
 @Controller
-@RequestMapping("/admin")
-public class AdminRestService {
+@RequestMapping("/wx")
+public class WeixinRestService {
 	
 }
