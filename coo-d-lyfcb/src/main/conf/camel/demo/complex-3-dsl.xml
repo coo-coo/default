@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--flag=1:start|5:stop|9:remove-->
+<!--auto:autoStart-->
+<route id="id-complex-1" flag="-1">
+	<node type="from"		value="http4://10.243.140.65:8078/ngbf/rest/demo" />
+	
+	<node type="porcess"	value="com.kingstar.ngbf.u.base.spi.camel.MockMessageUnitProcessor"  load="class"/>
+	<!--
+	<node type="porcess"	value="CamelMockMessageUnitProcessor"  load="spring"/>
+	<node type="to"			value="ngbf-jms:queue:ngbf.queue.profile" />
+	-->
+</route>

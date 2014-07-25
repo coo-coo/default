@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--flag=1:start|5:stop|9:remove-->
+<!--auto:autoStart-->
+<route id="id-complex-0" flag="1">
+	<node type="from"		value="file:C:/Temp/camel/source" />
+	<node type="porcess"	value="CamelMockFileProcessor" />
+	<node type="bean"		value="CamelMockBean" />
+	<node type="multicast"	value="file:C:/Temp/camel/target3,file:C:/Temp/camel/target4" />
+	<!--
+	<node type="to"			value="file:C:/Temp/camel/target" />
+	<node type="to"			value="file:C:/Temp/camel/target1" />
+	<node type="to"			value="file:C:/Temp/camel/target2" />
+	-->
+	
+	<!--
+	<node type="multicast"	value="file:C:/Temp/camel/target1,file:C:/Temp/camel/target2" />
+	-->
+	
+	<!--
+	<node type="routeId"	protocol="ngbf-none"  	value="id-complex-3" />
+	-->
+</route>

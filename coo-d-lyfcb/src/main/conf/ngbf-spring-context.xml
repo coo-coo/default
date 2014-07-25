@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans   
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd  
+        http://www.springframework.org/schema/context   
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+	default-autowire="byName">
+	
+	
+<!-- 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
+	<bean id="propertyConfigurer" class="com.kingstar.ngbf.s.util.NgbfPropertyPlaceholderConfigurer">
+      <property name="locations">
+		<list>
+			<value>../conf/ngbf-spring.properties</value>
+			<value>../conf/ngbf-spring-ext.properties</value>
+		</list>
+		</property>
+   </bean>
+   
+	<bean id="ngbfSpringContextAware" class="com.kingstar.ngbf.s.util.SpringContextAware" />
+	
+	<!-- Spring Bean Auto Scan -->
+	<context:component-scan base-package="com.kingstar.ngbf.s" />
+	<context:component-scan base-package="com.kingstar.ngbf.u" />
+	<context:component-scan base-package="com.kingstar.ngbf.p" />
+	
+	<context:component-scan base-package="com.coo.*" />
+	
+	<!-- 
+	<import resource="ngbf-spring-ds.xml" />
+	<import resource="ngbf-spring-aop.xml" />
+	-->
+</beans>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--flag=1:start|5:stop|9:remove-->
+<route id="id0" flag="-1">
+	<node type="from" value="file:C:/Temp/camel/source?delay=5" />
+	<node type="to" value="file:C:/Temp/camel/target" />
+</route>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:ippui="http://infinity.com/bpm/ui/common/uiDefinition" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd   
+        http://www.springframework.org/schema/context   
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-autowire="byName">
+
+	<context:annotation-config />
+	<!-- 用注解来实现事务管理 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${ngbf.ds.dialet}</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+		<property name="packagesToScan">
+			<list>
+				<value>com.kingstar.ngbf.c.*.bean</value>
+				<value>com.kingstar.*.bc.*.bean</value>
+				<value>com.kingstar.*.bs.**.bean</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${ngbf.ds.driver}" />
+		<property name="jdbcUrl" value="${ngbf.ds.url}" />
+		<property name="user" value="${ngbf.ds.username}" />
+		<property name="password" value="${ngbf.ds.password}" />
+		<!--初始化时获取三个连接，取值应在minPoolSize与maxPoolSize之间。Default: 3 -->
+		<property name="initialPoolSize" value="${ngbf.ds.pool.initial}" />
+		<!--连接池中保留的最小连接数。 -->
+		<property name="minPoolSize" value="${ngbf.ds.pool.min}" />
+		<!--连接池中保留的最大连接数。Default: 15 -->
+		<property name="maxPoolSize" value="${ngbf.ds.pool.max}" />
+		<!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 -->
+		<property name="acquireIncrement" value="${ngbf.ds.pool.increment}" />
+		<!--最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
+		<property name="maxIdleTime" value="30" />
+		<!--定义在从数据库获取新连接失败后重复尝试的次数。Default: 30 -->
+		<property name="acquireRetryAttempts" value="30" />
+		<!--两次连接中间隔时间，单位毫秒。Default: 1000 -->
+		<property name="acquireRetryDelay" value="2000" />
+		<!--连接关闭时默认将所有未提交的操作回滚。Default: false -->
+		<property name="autoCommitOnClose" value="false" />
+		<!--c3p0将建一张名为Test的空表，并使用其自带的查询语句进行测试。如定义此参数,属性preferredTestQuery将被忽略。 -->
+		<!--<property name="automaticTestTable" value="T_POOL_TEST" /> -->
+		<!--获取连接失败将会引起所有等待连接池来获取连接的线程抛出异常。但是数据源仍有效 保留，并在下次调用getConnection()的时候继续尝试获取连接。如果设为true，那么在尝试 
+			获取连接失败后该数据源将申明已断开并永久关闭。Default: false -->
+		<property name="breakAfterAcquireFailure" value="false" />
+		<!--连接池用完时客户端调用getConnection()后等待获取新连接的时间，超时抛出 SQLException,如设为0则无限期等待(毫秒) -->
+		<property name="checkoutTimeout" value="5000" />
+		<!--每60秒检查所有连接池中的空闲连接。Default: 0 -->
+		<property name="idleConnectionTestPeriod" value="60" />
+		<!--因性能消耗大请只在需要的时候使用它。如果设为true那么在每个connection提交的 时候都将校验其有效性。建议使用idleConnectionTestPeriod或automaticTestTable 
+			等方法来提升连接测试的性能。Default: false -->
+		<property name="testConnectionOnCheckout" value="false" />
+		<property name="testConnectionOnCheckin" value="false" />
+	</bean>
+
+	<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"> 
+		<property name="driverClassName"> <value>${ngbf.ds.driver}</value> </property> 
+		<property name="url"> <value>${ngbf.ds.url}</value> </property> <property 
+		name="username"> <value>${ngbf.ds.username}</value> </property> <property 
+		name="password"> <value>${ngbf.ds.password}</value> </property> </bean> -->
+</beans>

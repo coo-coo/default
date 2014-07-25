@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>ngbf-dev-d</artifactId>
+		<groupId>com.kingstar.ngbf</groupId>
+		<version>2.3.0.0</version>
+	</parent>
+	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.coo</groupId>
+	<artifactId>coo-d-lyfcb</artifactId>
+	<packaging>maven-plugin</packaging>
+	<version>0.1.0.0</version>
+	<name>coo-d-lyfcb</name>
+	
+	<properties>
+		<process.class.path>com.coo.d.lyfcb.MainProcess</process.class.path>
+		<ngbf-u-base.version>2.3.7.0</ngbf-u-base.version>
+		<ngbf-s-ntp.version>2.3.0.0</ngbf-s-ntp.version>
+	</properties>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.coo</groupId>
+			<artifactId>coo-u-lyfcb</artifactId>
+			<version>0.1.0.0</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+</project>

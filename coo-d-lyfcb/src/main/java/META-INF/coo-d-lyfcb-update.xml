@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ngbf resource="update">
+	<!-- 记录每一次POM版本的更新信息,POM每增一个版本,追加记录一个items(item*),author="拼音字母大写首字母SBQ|LQQ等" -->
+	<!-- since="每次版本,四位" update="更新事件,YYYY-MM-DD格式" -->
+	<!-- desc="更新描述" source="指明更新来自某应用驱动，应用为大写字母，参见NGBF应用支持管理" -->
+	<items author="SBQ" since="0.1.0.0" update="2014-07-25">
+		<item desc="创建工程">
+			<!-- 
+			<file name="web.xml"/>
+			<file name="ngbf-spring-mvc.xml"/>
+			-->
+		</item>
+	</items>
+</ngbf>

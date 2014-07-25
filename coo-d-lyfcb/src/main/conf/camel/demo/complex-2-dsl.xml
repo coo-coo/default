@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--flag=1:start|5:stop|9:remove-->
+<route id="id-complex-2" flag="-1">
+	<!--Need MockVmProducerJob... -->
+	<node type="from" 	value="direct:start" />
+	<node type="to"  	value="ngbf-jms:queue:ngbf.queue.mock" />
+</route>
