@@ -4,8 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * WeiXin业务服务
- * @author boqing.shen
+ * WeiXin业务服务(申請):SBJ
  * 
  */
 @Controller
