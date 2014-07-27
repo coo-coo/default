@@ -16,14 +16,14 @@
 	<properties>
 		<process.class.path>com.coo.d.lyfcb.MainProcess</process.class.path>
 		<ngbf-u-base.version>2.3.7.0</ngbf-u-base.version>
-		<ngbf-s-ntp.version>2.3.0.0</ngbf-s-ntp.version>
+		<ngbf-s-ntp.version>2.3.5.0</ngbf-s-ntp.version>
 	</properties>
 	
 	<dependencies>
 		<dependency>
 			<groupId>com.coo</groupId>
 			<artifactId>coo-u-lyfcb</artifactId>
-			<version>0.1.0.0</version>
+			<version>0.1.1.0</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>

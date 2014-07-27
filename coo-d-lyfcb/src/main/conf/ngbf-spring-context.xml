@@ -27,7 +27,8 @@
 	<context:component-scan base-package="com.kingstar.ngbf.u" />
 	<context:component-scan base-package="com.kingstar.ngbf.p" />
 	
-	<context:component-scan base-package="com.coo.*" />
+	
+	<context:component-scan base-package="com.coo.u.lyfcb" />
 	
 	<!-- 
 	<import resource="ngbf-spring-ds.xml" />

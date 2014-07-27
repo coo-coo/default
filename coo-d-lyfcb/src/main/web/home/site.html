@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+<title>LYFCB:站点管理</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<link href="../assets/common/bootstrap.css" rel="stylesheet">
+<link href="../assets/common/bootstrap.responsive.css" rel="stylesheet">
+
+<style>
+.center {
+	margin-left: auto !important;
+	margin-right: auto !important;
+	float: none !important;
+	display: block;
+	text-align: center;
+}
+
+.left {
+	text-align: left;
+}
+
+.auto-height {
+	min-height: 50px;
+	height: 100% !important;
+}
+
+.glyphicon{
+	margin-right:5px;
+}
+
+li{
+	margin-bottom:5px;
+	padding-left:0px;
+	margin-left:0px;
+}
+
+</style>
+</head>
+
+<body>
+	<!-- 何用 -->
+	<nav id="ngbf-header-bar" role="navigation"></nav>
+	
+	<div class="container">
+		<div class="col-md-12" style="height:45px"></div>
+	</div>
+	
+	<div id="content" class="col-md-11 center" ng-controller="siteCtrl">
+		<!-- http://v3.bootcss.com/css/#tables -->
+		<table class='table table-striped'>
+			<thead>
+				<tr>
+					<th style="width:20%;text-align:center;">序号{{x}}</th>
+					<th style="width:20%;text-align:center;">名称</th>
+					<th style="width:60%;text-align:center;">地址</th>
+				</tr>
+			</thead>
+			<tbody id="codeBody">
+				<!--w-profile/home/componentDetail.js-->
+				<tr ng-repeat="item in sites">
+					<td>{{item.seq}}</td>
+					<td>{{item.name}}</td>
+					<td style="text-align:left;">{{item.address}}</td>
+					<!--<td><span class="btn btn-success btn-xs pull-right"  ng-click="snapsvnshot(item.id)">详情</span></td>-->
+				</tr>
+			</tbody>
+			<!--					
+			<tr>
+				<td>001</td>
+				<td>站点1</td>
+				<td style="text-align:left;">XX路XX号</td>
+			</tr>
+			<tr>
+				<td>001</td>
+				<td>站点1</td>
+				<td style="text-align:left;">XX路XX号</td>
+			</tr>
+			<tr>
+				<td>001</td>
+				<td>站点1</td>
+				<td style="text-align:left;">XX路XX号</td>
+			</tr>
+			-->
+		</table>
+		
+	</div>
+</body>
+
+</html>
+
+<!-- 在页面底部加载JS，促进页面加载速度 -->
+<!-- JQuery & NGBF -->
+<script src="../assets/common/jquery.js"></script>
+<script src="../assets/common/bootstrap.js"></script>
+<script src="../assets/common/angular.min.js"></script>
+
+<script src="../assets/common/ngbf-web.js"></script>
+<script src="../ngbf-app.js"></script>
+<script src="site.js"></script>

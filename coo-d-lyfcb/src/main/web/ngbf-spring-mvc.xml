@@ -82,4 +82,7 @@
 	<context:component-scan base-package="com.kingstar.ngbf.c.*.rest" />
 	<context:component-scan base-package="com.kingstar.ngbf.s.*.rest" />
 	<context:component-scan base-package="com.kingstar.ngbf.u.*.rest" />
+	
+	<context:component-scan base-package="com.coo.u.lyfcb.rest" />
+	
 </beans>

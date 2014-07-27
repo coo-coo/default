@@ -1,16 +1,16 @@
 package com.coo.u.lyfcb.model;
 
 /**
- * 卡:ZSL
+ * 卡:SBQ
  * 
  */
 public class Card {
-	
-	public static String STATUS_FREE = "0";			// 已创建，未申请
-	public static String STATUS_LOCKED = "5";		// 已申请，未办理，被锁定 ：超时解锁?
-	public static String STATUS_OWNED = "1";		// 已申请，已办理，已解锁
-	public static String STATUS_WITHDRAWED = "8";	// 已注销，已挂失?
-	
+
+	public static String STATUS_FREE = "0"; // 已创建，未申请
+	public static String STATUS_LOCKED = "5"; // 已申请，未办理，被锁定 ：超时解锁?
+	public static String STATUS_OWNED = "1"; // 已申请，已办理，已解锁
+	public static String STATUS_WITHDRAWED = "8"; // 已注销，已挂失?
+
 	/**
 	 * 序号：12位，第一位是大写字母，剩下11位是数字
 	 */
@@ -35,7 +35,16 @@ public class Card {
 	 * 卡状态：
 	 */
 	private String status = "";
-	
+
+	public Card() {
+
+	}
+
+	public Card(String siteSeq, String seq) {
+		this.siteSeq = siteSeq;
+		this.seq = seq;
+	}
+
 	public String getSeq() {
 		return seq;
 	}
