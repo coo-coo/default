@@ -101,14 +101,16 @@ public class AdminRestService {
 	 */
 	@RequestMapping(value = "site/create", method = RequestMethod.POST)
 	@ResponseBody
-	public SimpleMessage<?> siteCreate(String site) {
+	public SimpleMessage<?> siteCreate(String info) {
+		System.out.println("siteCreate:"+info);
+		logger.info(info);
 		// 转化成为Map对象?
 		Gson gson = new Gson();
-		Map<String, Object> item = gson.fromJson(site,
+		Map<String, Object> item = gson.fromJson(info,
 				new TypeToken<HashMap<String, Object>>() {
 				}.getType());
 		// TODO 进行保存
-		logger.debug(item);
+		logger.info(item);
 		SimpleMessage<?> sm = SimpleMessage.ok();
 		return sm;
 	}
@@ -118,10 +120,12 @@ public class AdminRestService {
 	 */
 	@RequestMapping(value = "card/create", method = RequestMethod.POST)
 	@ResponseBody
-	public SimpleMessage<?> cardCreate(String card) {
+	public SimpleMessage<?> cardCreate(String info) {
+		System.out.println("cardCreate:"+info);
+		logger.debug(info);
 		// 转化成为Map对象?
 		Gson gson = new Gson();
-		Map<String, Object> item = gson.fromJson(card,
+		Map<String, Object> item = gson.fromJson(info,
 				new TypeToken<HashMap<String, Object>>() {
 				}.getType());
 		// TODO 进行保存

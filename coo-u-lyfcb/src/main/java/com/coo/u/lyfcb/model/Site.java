@@ -4,51 +4,67 @@ package com.coo.u.lyfcb.model;
  * 取卡网点地址:ZSL
  * 
  */
-public class Site {
-
+public class Site extends BasicEntity{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8345207420415553172L;
+	
 	/**
 	 * 序号：创建一个Site,给以业务序号，作为外键，001，002....
 	 */
+	@Column
 	private String seq = "";
 	/**
 	 * 名称
 	 */
+	@Column
 	private String name = "";
 	/**
 	 * 地址
 	 */
+	@Column
 	private String address = "";
 	/**
 	 * 联系电话
 	 */
+	@Column
 	private String telephone = "";
 	/**
 	 * 服务开始时间
 	 */
+	@Column
 	private String startTime = "";
 	/**
 	 * 服务结束时间
 	 */
+	@Column
 	private String endTime = "";
 	/**
 	 * 押金，单位元
 	 */
+	@Column
 	private Double deposit = 0.0;
 	/**
 	 * 地址经度:备用字段
 	 */
+	@Column
 	private Double longitude = 0.0;
 	/**
 	 * 地址维度:备用字段
 	 */
+	@Column
 	private Double latitude = 0.0;
 	/**
 	 * 城市编码：备用字段，缺省
 	 */
+	@Column
 	private String cityCode = "LY";
 	/**
 	 * 注释:备用字段
 	 */
+	@Column
 	private String note = "";
 
 	public Site() {

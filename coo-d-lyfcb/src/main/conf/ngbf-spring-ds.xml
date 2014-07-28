@@ -77,7 +77,11 @@
 		<property name="testConnectionOnCheckout" value="false" />
 		<property name="testConnectionOnCheckin" value="false" />
 	</bean>
-
+	
+	
+	
+	
+	
 	<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"> 
 		<property name="driverClassName"> <value>${ngbf.ds.driver}</value> </property> 
 		<property name="url"> <value>${ngbf.ds.url}</value> </property> <property 

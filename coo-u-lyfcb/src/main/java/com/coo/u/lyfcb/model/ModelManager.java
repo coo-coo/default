@@ -1,0 +1,131 @@
+package com.coo.u.lyfcb.model;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.log4j.Logger;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import com.kingstar.ngbf.s.util.GenericsUtil;
+import com.kingstar.ngbf.s.util.NgbfRuntimeException;
+import com.kingstar.ngbf.s.util.PubString;
+import com.kingstar.ngbf.s.util.SpringContextFactory;
+
+public class ModelManager {
+	
+	private Logger logger = Logger.getLogger(ModelManager.class);
+	
+	public static void main(String[] args) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("seq", "001");
+		map.put("name", "name-001");
+		map.put("uuid", "uuid-001");
+		Object o = ModelManager.get().merge(map, Site.class);
+		Site site = (Site)o;
+		System.out.println(site.getName() + "\t" + site.getUuid());
+	}
+	
+	/**
+	 * 查询获得SQL全部数据
+	 */
+	public List<?> find(String sql, Object[] params, Class<?> clz) {
+		List<Object> list = new ArrayList<Object>();
+		// 如果出错,打印日志信息,但是不报错
+		
+		// 获得List结果集
+		Iterator<?> it = getTemplate().queryForList(sql, params).iterator();  
+	    // 迭代循环，返回对象
+		while(it.hasNext()) {
+		    @SuppressWarnings("unchecked")
+			Map<String,Object> map = (Map<String,Object>)it.next();
+		    Object instance = merge(map,clz);
+		    if(instance!=null){
+		    	list.add(instance);
+		    }
+		} 
+		return list;
+	}
+	
+	
+	/**
+	 * 将对象合并成一个类
+	 */
+	public Object merge(Map<String,Object> map,Class<?> clz){
+		try {
+	    	Object instance = clz.newInstance();
+		    // 获得所有的字段,该字段可能对应有数据库的Column
+		    List<Field> fields = GenericsUtil.getClassSimpleFields(clz,true);
+		    for (Field field : fields) {
+		    	// 获得field上的注解
+		    	Column col = field.getAnnotation(Column.class);
+		    	if(col!=null){
+		    		// 定义数据库队列名称,缺省是字段名稱
+		    		String colName = field.getName();
+		    		if(!PubString.isNullOrSpace(col.name())){
+		    			colName = col.name();
+		    		}
+		    		// 获得值
+		    		Object value = map.get(colName);
+		    		if(value!=null){
+		    			PropertyUtils.setSimpleProperty(instance, field.getName(), value);
+		    		}
+		    	}
+			}
+		    return instance;
+		} catch (Exception e) {
+			logger.error(e);
+			return null;
+		}
+	}
+	
+	/**
+	 * 执行SQL语句
+	 */
+	public void execute(String sql, Object[] params) throws NgbfRuntimeException{
+		try {
+			jdbcTemplate.update(sql, params);
+		} catch (DataAccessException e) {
+			throw new NgbfRuntimeException(e.getMessage(),e);
+		}
+	}
+
+	private static JdbcTemplate jdbcTemplate;
+
+	private JdbcTemplate getTemplate() {
+		if (jdbcTemplate == null) {
+			jdbcTemplate = (JdbcTemplate) SpringContextFactory
+					.getSpringBean("jdbcTemplate");
+		}
+		return jdbcTemplate;
+	}
+
+	/**
+	 * 单实例
+	 */
+	private static ModelManager instance;
+
+	/**
+	 * 获取实例,采用synchronized避免多线程冲突
+	 * 
+	 * @return
+	 */
+	public static synchronized ModelManager get() {
+		if (instance == null) {
+			instance = new ModelManager();
+		}
+		return instance;
+	}
+
+	/**
+	 * 私有构造函数
+	 */
+	private ModelManager() {
+
+	}
+}

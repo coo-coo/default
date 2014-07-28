@@ -25,10 +25,6 @@ napp.menuitems = [{
 	"id" : "site-mgt",
 	"label" : "站点管理",
 	"value" : "../home/site.html"
-}, {
-	"id" : "card-mgt",
-	"label" : "卡号管理",
-	"value" : "../home/card.html"
 }];
 
 // 应用上下文命名空间
