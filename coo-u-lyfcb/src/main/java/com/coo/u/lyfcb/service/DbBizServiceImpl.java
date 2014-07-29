@@ -9,9 +9,10 @@ import javax.annotation.PostConstruct;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import com.coo.u.lyfcb.model.Apply;
-import com.coo.u.lyfcb.model.Card;
-import com.coo.u.lyfcb.model.Site;
+import com.coo.s.lyfcb.model.Apply;
+import com.coo.s.lyfcb.model.Card;
+import com.coo.s.lyfcb.model.Site;
+import com.coo.s.lyfcb.service.IBizService;
 import com.kingstar.ngbf.s.util.StringUtil;
 
 /**

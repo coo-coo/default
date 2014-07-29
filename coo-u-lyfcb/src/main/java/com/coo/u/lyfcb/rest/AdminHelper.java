@@ -6,10 +6,10 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.coo.u.lyfcb.model.Apply;
-import com.coo.u.lyfcb.model.Card;
-import com.coo.u.lyfcb.model.Site;
-import com.coo.u.lyfcb.service.IBizService;
+import com.coo.s.lyfcb.model.Apply;
+import com.coo.s.lyfcb.model.Card;
+import com.coo.s.lyfcb.model.Site;
+import com.coo.s.lyfcb.service.IBizService;
 import com.coo.u.lyfcb.service.ModelManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -61,7 +61,7 @@ public final class AdminHelper {
 		String sql = "select * from " + Apply.T_NAME + " where status = ?";
 		Object[] params = new Object[1];
 		params[0] = status;
-		return (List<Apply>)ModelManager.get().find(sql, null, Apply.class);
+		return (List<Apply>) ModelManager.get().find(sql, null, Apply.class);
 	}
 
 	/**

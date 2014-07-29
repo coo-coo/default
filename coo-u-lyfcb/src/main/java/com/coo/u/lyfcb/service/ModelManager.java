@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.coo.u.lyfcb.model.Column;
+import com.coo.s.lyfcb.model.Column;
 import com.kingstar.ngbf.s.util.GenericsUtil;
 import com.kingstar.ngbf.s.util.NgbfRuntimeException;
 import com.kingstar.ngbf.s.util.PubString;

@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.coo.u.lyfcb.model.Apply;
-import com.coo.u.lyfcb.model.Card;
-import com.coo.u.lyfcb.model.Site;
+import com.coo.s.lyfcb.model.Apply;
+import com.coo.s.lyfcb.model.Card;
+import com.coo.s.lyfcb.model.Site;
 import com.kingstar.ngbf.s.ntp.SimpleMessage;
 import com.kingstar.ngbf.s.ntp.SimpleMessageHead;
 import com.kingstar.ngbf.s.ntp.spi.Token;
@@ -76,7 +76,7 @@ public class AdminRestService {
 		}
 		return sm;
 	}
-	
+
 	@RequestMapping(value = "apply/all/status/{status}", method = RequestMethod.GET)
 	@ResponseBody
 	public SimpleMessage<Apply> applyAll(@PathVariable("status") String status) {
