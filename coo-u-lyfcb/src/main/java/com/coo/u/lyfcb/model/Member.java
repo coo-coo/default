@@ -4,8 +4,12 @@ package com.coo.u.lyfcb.model;
  * 会员信息:SBJ
  * 
  */
-public class Member {
+public class Member extends BasicEntity{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8255660390583436134L;
 	/**
 	 * WX的开放ID等
 	 */

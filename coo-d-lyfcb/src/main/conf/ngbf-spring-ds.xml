@@ -78,13 +78,10 @@
 		<property name="testConnectionOnCheckin" value="false" />
 	</bean>
 	
+	<!-- 声明Spring的JdbcTemplate -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
 	
 	
-	
-	
-	<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"> 
-		<property name="driverClassName"> <value>${ngbf.ds.driver}</value> </property> 
-		<property name="url"> <value>${ngbf.ds.url}</value> </property> <property 
-		name="username"> <value>${ngbf.ds.username}</value> </property> <property 
-		name="password"> <value>${ngbf.ds.password}</value> </property> </bean> -->
 </beans>

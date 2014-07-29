@@ -4,8 +4,15 @@ package com.coo.u.lyfcb.model;
  * 卡:SBQ
  * 
  */
-public class Card {
+public class Card extends BasicEntity{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7246117088814566432L;
 
+	public static String T_NAME = "t_card";
+	
 	public static String STATUS_FREE = "0"; // 已创建，未申请
 	public static String STATUS_LOCKED = "5"; // 已申请，未办理，被锁定 ：超时解锁?
 	public static String STATUS_OWNED = "1"; // 已申请，已办理，已解锁
@@ -14,27 +21,33 @@ public class Card {
 	/**
 	 * 序号：12位，第一位是大写字母，剩下11位是数字
 	 */
+	@Column
 	private String seq = "";
 	/**
 	 * 场所序号，参见Site.seq
 	 */
+	@Column
 	private String siteSeq = "";
 	/**
 	 * 名称:备用字段
 	 */
+	@Column
 	private String name = "";
 	/**
 	 * 城市编码：备用字段，缺省
 	 */
+	@Column
 	private String cityCode = "LY";
 	/**
 	 * 注释:备用字段
 	 */
+	@Column
 	private String note = "";
 	/**
 	 * 卡状态：
 	 */
-	private String status = "";
+	@Column
+	private String status = STATUS_FREE;
 
 	public Card() {
 
@@ -91,5 +104,9 @@ public class Card {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	public String getInfo(){
+		return this.getUuid() + "-" + this.getSeq() + "-" + this.getName();
 	}
 }

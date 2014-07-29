@@ -6,6 +6,8 @@ package com.coo.u.lyfcb.model;
  */
 public class Site extends BasicEntity{
 	
+	public static String T_NAME = "t_site";
+	
 	/**
 	 * 
 	 */
@@ -162,5 +164,9 @@ public class Site extends BasicEntity{
 
 	public void setNote(String note) {
 		this.note = note;
+	}
+	
+	public String getInfo(){
+		return this.getUuid() + "-" + this.getSeq() + "-" + this.getName();
 	}
 }

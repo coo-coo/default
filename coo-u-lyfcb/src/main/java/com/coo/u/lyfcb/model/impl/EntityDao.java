@@ -2,16 +2,14 @@ package com.coo.u.lyfcb.model.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
-import org.springframework.stereotype.Repository;
 
-@Repository
+//@Repository
 public class EntityDao<T> {
 
-	@Autowired
+//	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
 	/**
