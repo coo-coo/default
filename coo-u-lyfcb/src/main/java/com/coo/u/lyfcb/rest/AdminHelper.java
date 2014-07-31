@@ -10,7 +10,7 @@ import com.coo.s.lyfcb.model.Apply;
 import com.coo.s.lyfcb.model.Card;
 import com.coo.s.lyfcb.model.Site;
 import com.coo.s.lyfcb.service.IBizService;
-import com.coo.u.lyfcb.service.ModelManager;
+import com.coo.u.lyfcb.model.DbManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kingstar.ngbf.s.ntp.spi.Token;
@@ -25,7 +25,16 @@ public final class AdminHelper {
 	// private static Map<String,Token> tokens = new HashMap<String,Token>();
 
 	private static Logger logger = Logger.getLogger(AdminHelper.class);
-
+	
+	public static void main(String[] args) {
+		String sql = "insert into " + Site.T_NAME
+				+ "(uuid,seq,name) values(?,?,?)";
+		System.out.println(sql);
+	}
+	
+	
+	
+	
 	/**
 	 * 仅存留一个Admin的Token，单Admin模型
 	 */
@@ -34,10 +43,16 @@ public final class AdminHelper {
 	public Token getAdminToken() {
 		return adminToken;
 	}
+	
+	public static String getTokenAccount() {
+		return "SBQ";
+	}
 
 	public static void setAdminToken(Token adminToken) {
 		AdminHelper.adminToken = adminToken;
 	}
+	
+	
 
 	/**
 	 * 将键值对的Json数据格式转化成为Map对象
@@ -45,7 +60,7 @@ public final class AdminHelper {
 	 * @param jsonInfo
 	 * @return
 	 */
-	public static Map<String, Object> transform(String jsonInfo) {
+	private static Map<String, Object> transform(String jsonInfo) {
 		Gson gson = new Gson();
 		Map<String, Object> item = gson.fromJson(jsonInfo,
 				new TypeToken<HashMap<String, Object>>() {
@@ -61,7 +76,22 @@ public final class AdminHelper {
 		String sql = "select * from " + Apply.T_NAME + " where status = ?";
 		Object[] params = new Object[1];
 		params[0] = status;
-		return (List<Apply>) ModelManager.get().find(sql, null, Apply.class);
+		return (List<Apply>) DbManager.get().find(sql, params, Apply.class);
+	}
+
+	/**
+	 * 操作员更新申请信息
+	 */
+	public static void updateApplyStatus(String uuid, String status) throws NgbfRuntimeException{
+		String sql = "update " + Apply.T_NAME
+				+ " set status=?,operator=?,operatorTs=?  where uuid=?";
+		Object[] params = new Object[4];
+		params[0] = status;
+		params[1] = AdminHelper.getTokenAccount();
+		params[2] = System.currentTimeMillis();
+		params[3] = uuid;
+		logger.debug(sql);
+		DbManager.get().execute(sql, params);
 	}
 
 	/**
@@ -92,7 +122,7 @@ public final class AdminHelper {
 				+ "(uuid,seq,name,address,telephone,startTime,endTime,deposit,longitude,latitude,cityCode,note)"
 				+ " values(?,?,?,?,?,?,?,200.0,0.0,0.0,'LY','')";
 		logger.debug(sql);
-		ModelManager.get().execute(sql, params);
+		DbManager.get().execute(sql, params);
 	}
 
 	/**
@@ -116,14 +146,10 @@ public final class AdminHelper {
 				+ "(uuid,seq,name,siteSeq,status,cityCode,note)"
 				+ " values(?,?,'',?,'0','LY','')";
 		logger.debug(sql);
-		ModelManager.get().execute(sql, params);
+		DbManager.get().execute(sql, params);
 	}
 
-	public static void main(String[] args) {
-		String sql = "insert into " + Site.T_NAME
-				+ "(uuid,seq,name) values(?,?,?)";
-		System.out.println(sql);
-	}
+	
 
 	private static String getStr(Map<String, Object> item, String key) {
 		String v = "";

@@ -44,6 +44,8 @@ public class AdminRestService {
 			AdminHelper.setAdminToken(token);
 			// 存储所有的Token，TODO
 			sm = SimpleMessage.ok().set("token", token.getToken());
+			// 返回前端,用于界面显示
+			sm = SimpleMessage.ok().set("account", token.getAccount());
 		} else {
 			sm = new SimpleMessage<Object>(
 					SimpleMessageHead.BIZ_ERROR.repMsg("用户名或密码不正确!"));
@@ -89,6 +91,21 @@ public class AdminRestService {
 		return sm;
 	}
 
+	@RequestMapping(value = "apply/update/uuid/{uuid}/status/{status}", method = RequestMethod.GET)
+	@ResponseBody
+	public SimpleMessage<?> applyUpdate(@PathVariable("uuid") String uuid,
+			@PathVariable("status") String status) {
+		SimpleMessage<?> sm = SimpleMessage.ok();
+		try {
+			// 进行信息的更新返回
+			AdminHelper.updateApplyStatus(uuid, status);
+		} catch (Exception e) {
+			sm = SimpleMessage.blank().head(
+					SimpleMessageHead.BIZ_ERROR.repMsg(e.getMessage()));
+		}
+		return sm;
+	}
+
 	/**
 	 * 获得所有的站点的所有卡片信息信息
 	 */
@@ -112,9 +129,7 @@ public class AdminRestService {
 	@RequestMapping(value = "site/create", method = RequestMethod.POST)
 	@ResponseBody
 	public SimpleMessage<?> siteCreate(String info) {
-		System.out.println("siteCreate:" + info);
-		logger.info(info);
-
+		logger.debug(info);
 		// 创建返回消息
 		SimpleMessage<?> sm = SimpleMessage.ok();
 		try {
@@ -133,7 +148,6 @@ public class AdminRestService {
 	@RequestMapping(value = "card/create", method = RequestMethod.POST)
 	@ResponseBody
 	public SimpleMessage<?> cardCreate(String info) {
-		System.out.println("cardCreate:" + info);
 		logger.debug(info);
 		// 创建返回消息
 		SimpleMessage<?> sm = SimpleMessage.ok();

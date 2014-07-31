@@ -13,6 +13,7 @@ import com.coo.s.lyfcb.model.Apply;
 import com.coo.s.lyfcb.model.Card;
 import com.coo.s.lyfcb.model.Site;
 import com.coo.s.lyfcb.service.IBizService;
+import com.coo.u.lyfcb.model.DbManager;
 import com.kingstar.ngbf.s.util.StringUtil;
 
 /**
@@ -45,7 +46,7 @@ public class DbBizServiceImpl implements IBizService {
 		map.put("seq", "001");
 		map.put("name", "name-001");
 		map.put("uuid", "uuid-001");
-		Object o = ModelManager.get().merge(map, Site.class);
+		Object o = DbManager.get().merge(map, Site.class);
 		Site site = (Site) o;
 		System.out.println(site.getName() + "\t" + site.getUuid());
 	}
@@ -53,7 +54,7 @@ public class DbBizServiceImpl implements IBizService {
 	@Override
 	public List<Site> findSiteAll() {
 		String sql = "select * from " + Site.T_NAME;
-		return (List<Site>) ModelManager.get().find(sql, null, Site.class);
+		return (List<Site>) DbManager.get().find(sql, null, Site.class);
 	}
 
 	@Override
@@ -62,7 +63,7 @@ public class DbBizServiceImpl implements IBizService {
 				+ " where siteSeq = ? and status='0'";
 		Object[] params = new Object[1];
 		params[0] = siteSeq;
-		return (List<Card>) ModelManager.get().find(sql, params, Card.class);
+		return (List<Card>) DbManager.get().find(sql, params, Card.class);
 	}
 
 	@Override
@@ -81,7 +82,7 @@ public class DbBizServiceImpl implements IBizService {
 		Object[] params = new Object[2];
 		params[0] = seq;
 		params[1] = siteSeq;
-		List<Card> list = (List<Card>) ModelManager.get().find(sql, params,
+		List<Card> list = (List<Card>) DbManager.get().find(sql, params,
 				Card.class);
 		if (list.size() > 0) {
 			return list.get(0);
@@ -106,7 +107,7 @@ public class DbBizServiceImpl implements IBizService {
 				+ "(uuid,siteSeq,cardSeq,memberOpenId,memberName,memberMobile,memberIdCard,applyTs,operator,operatorTs,status,note)"
 				+ " values(?,?,?,?,?,?,?,?,'',0,'0','')";
 		logger.debug(sql);
-		ModelManager.get().execute(sql, params);
+		DbManager.get().execute(sql, params);
 
 		// 将申请的卡变为STATUS_LOCKED状态
 		updateCardStatus(apply.getSiteSeq(), apply.getCardSeq(),
@@ -121,6 +122,6 @@ public class DbBizServiceImpl implements IBizService {
 		params[0] = status;
 		params[1] = seq;
 		params[2] = siteSeq;
-		ModelManager.get().execute(sql, params);
+		DbManager.get().execute(sql, params);
 	}
 }

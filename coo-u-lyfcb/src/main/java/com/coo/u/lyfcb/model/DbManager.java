@@ -1,4 +1,4 @@
-package com.coo.u.lyfcb.service;
+package com.coo.u.lyfcb.model;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -17,9 +17,9 @@ import com.kingstar.ngbf.s.util.NgbfRuntimeException;
 import com.kingstar.ngbf.s.util.PubString;
 import com.kingstar.ngbf.s.util.SpringContextFactory;
 
-public class ModelManager {
+public class DbManager {
 
-	private Logger logger = Logger.getLogger(ModelManager.class);
+	private Logger logger = Logger.getLogger(DbManager.class);
 
 	/**
 	 * 查询获得SQL全部数据
@@ -104,16 +104,16 @@ public class ModelManager {
 	/**
 	 * 单实例
 	 */
-	private static ModelManager instance;
+	private static DbManager instance;
 
 	/**
 	 * 获取实例,采用synchronized避免多线程冲突
 	 * 
 	 * @return
 	 */
-	public static synchronized ModelManager get() {
+	public static synchronized DbManager get() {
 		if (instance == null) {
-			instance = new ModelManager();
+			instance = new DbManager();
 		}
 		return instance;
 	}
@@ -121,7 +121,7 @@ public class ModelManager {
 	/**
 	 * 私有构造函数
 	 */
-	private ModelManager() {
+	private DbManager() {
 
 	}
 }
