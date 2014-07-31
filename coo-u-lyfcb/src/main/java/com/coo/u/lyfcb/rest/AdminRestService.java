@@ -15,6 +15,7 @@ import com.coo.s.lyfcb.model.Site;
 import com.kingstar.ngbf.s.ntp.SimpleMessage;
 import com.kingstar.ngbf.s.ntp.SimpleMessageHead;
 import com.kingstar.ngbf.s.ntp.spi.Token;
+import com.kingstar.ngbf.s.util.NgbfRuntimeException;
 
 /**
  * 卡号信息业务维护:SBQ http://ip:port/lyfcb/rest/
@@ -26,6 +27,26 @@ public class AdminRestService {
 	private Logger logger = Logger.getLogger(AdminRestService.class);
 
 	/**
+	 * 获得登录人信息
+	 */
+	@RequestMapping(value = "admin/info/token/{token}", method = RequestMethod.GET)
+	@ResponseBody
+	public SimpleMessage<?> adminInfo(@PathVariable("token") String token) {
+		SimpleMessage<?> sm = null;
+		// 账号、密码从配置文件中获得的
+		Token t = AdminHelper.getAccountToken(token);
+		if (t != null) {
+			sm = SimpleMessage.ok().set("token", t.getToken())
+					.set("account", t.getAccount()).set("role", t.getRole())
+					.set("partition", t.getPartition());
+		} else {
+			sm = new SimpleMessage<Object>(
+					SimpleMessageHead.BIZ_ERROR.repMsg("Token不存在!"));
+		}
+		return sm;
+	}
+
+	/**
 	 * Admin登陆
 	 */
 	@RequestMapping(value = "admin/login/username/{username}/password/{password}", method = RequestMethod.GET)
@@ -34,34 +55,46 @@ public class AdminRestService {
 			@PathVariable("username") String username,
 			@PathVariable("password") String password) {
 		SimpleMessage<?> sm = new SimpleMessage<Object>(SimpleMessageHead.OK);
-		logger.debug("username:" + username + ", password:" + password);
-		// TODO 密码从配置文件中获得的
-		if (username.equals("motu") && password.equals("motu")) {
-			Token token = new Token();
-			token.setAccount(username);
-			token.setRole("ADMIN");
-			// 设置单例登录....
-			AdminHelper.setAdminToken(token);
+
+		try {
+			logger.debug("username:" + username + ", password:" + password);
+			// 账号、密码从配置文件中获得的
+			Token token = AdminHelper.adminLogin(username, password);
 			// 存储所有的Token，TODO
-			sm = SimpleMessage.ok().set("token", token.getToken());
-			// 返回前端,用于界面显示
-			sm = SimpleMessage.ok().set("account", token.getAccount());
-		} else {
-			sm = new SimpleMessage<Object>(
-					SimpleMessageHead.BIZ_ERROR.repMsg("用户名或密码不正确!"));
+			sm = SimpleMessage.ok().set("token", token.getToken())
+					.set("account", token.getAccount());
+
+		} catch (NgbfRuntimeException e) {
+			sm = new SimpleMessage<Object>(SimpleMessageHead.BIZ_ERROR.repMsg(e
+					.getMessage()));
 		}
+		//
+		// if (username.equals("motu") && password.equals("motu")) {
+		// Token token = new Token();
+		// token.setAccount(username);
+		// token.setRole("ADMIN");
+		// // 设置单例登录....
+		// AdminHelper.setAdminToken(token);
+		// // 存储所有的Token，TODO
+		// sm = SimpleMessage.ok().set("token", token.getToken());
+		// // 返回前端,用于界面显示
+		// sm = SimpleMessage.ok().set("account", token.getAccount());
+		// } else {
+		// sm = new SimpleMessage<Object>(
+		// SimpleMessageHead.BIZ_ERROR.repMsg("用户名或密码不正确!"));
+		// }
 		return sm;
 	}
 
 	/**
 	 * Admin登出
 	 */
-	@RequestMapping(value = "admin/logout", method = RequestMethod.GET)
+	@RequestMapping(value = "admin/logout/token/{token}", method = RequestMethod.GET)
 	@ResponseBody
-	public SimpleMessage<?> adminLogout() {
-		AdminHelper.setAdminToken(null);
-		SimpleMessage<?> sm = SimpleMessage.ok();
-		return sm;
+	public SimpleMessage<?> adminLogout(@PathVariable("token") String token) {
+		// 清除Token
+		AdminHelper.adminLogout(token);
+		return SimpleMessage.ok();
 	}
 
 	/**
@@ -91,14 +124,14 @@ public class AdminRestService {
 		return sm;
 	}
 
-	@RequestMapping(value = "apply/update/uuid/{uuid}/status/{status}", method = RequestMethod.GET)
+	@RequestMapping(value = "apply/update/uuid/{uuid}/status/{status}/token/{token}", method = RequestMethod.GET)
 	@ResponseBody
 	public SimpleMessage<?> applyUpdate(@PathVariable("uuid") String uuid,
-			@PathVariable("status") String status) {
+			@PathVariable("status") String status,@PathVariable("token") String token) {
 		SimpleMessage<?> sm = SimpleMessage.ok();
 		try {
 			// 进行信息的更新返回
-			AdminHelper.updateApplyStatus(uuid, status);
+			AdminHelper.updateApplyStatus(uuid, status,token);
 		} catch (Exception e) {
 			sm = SimpleMessage.blank().head(
 					SimpleMessageHead.BIZ_ERROR.repMsg(e.getMessage()));

@@ -1,7 +1,7 @@
 package com.coo.u.lyfcb.model;
 
 /**
- * 定义简单的登录账号
+ * 定义简单的登录账号,参见ngbf-account.xml
  */
 public class Account {
 

@@ -18,194 +18,203 @@
 	display: block;
 	text-align: center;
 }
-
-.left {
-	text-align: left;
-}
-
-.auto-height {
-	min-height: 50px;
-	height: 100% !important;
-}
-
-.glyphicon{
-	margin-right:5px;
-}
-
-li{
-	margin-bottom:5px;
-	padding-left:0px;
-	margin-left:0px;
-}
-
 </style>
 </head>
 
 <body>
 	<!-- 何用 -->
 	<nav id="ngbf-header-bar" role="navigation"></nav>
-	
+
+	<!--用于显示菜单-->
 	<div class="container">
-		<div class="col-md-12" style="height:45px"></div>
+		<div class="col-12" style="height: 45px"></div>
 	</div>
-	
-	<div class="col-12" ng-controller="siteCtrl">
-	<!-- Site area -->
-	<div id="content_left" class="col-9">
+
+
+	<div id="content" class="col-12" ng-controller="siteCtrl">
+		<!-- Site area -->
+		<div id="content_left" class="col-md-9">
+			<!--
 		<div class="col-md-9" style="text-align:right;">
-			<button type="button" class="btn btn-primary btn-ml" >刷新</button>
-			<button type="button" class="btn btn-primary btn-ml" data-toggle='modal' data-target='#site_dlg' >创建</button>
+			<button type="button" class="btn btn-primary btn-ml" data-toggle='modal' data-target='#site_dlg'>创建</button>
 		</div>
-	
-		<div class="col-md-9">
-		<!-- http://v3.bootcss.com/css/#tables -->
-		<table class='table table-striped'>
-			<thead>
-				<tr>
-					<th style="width:10%;text-align:center;">序号{{x}}</th>
-					<th style="width:10%;text-align:center;">名称</th>
-					<th style="width:30%;text-align:center;">地址</th>
-					<th style="width:20%;text-align:center;">电话</th>
-					<th style="width:10%;text-align:center;">服务时间</th>
-					<th style="width:15%;text-align:center;">卡号</th>
-				</tr>
-			</thead>
-			<tbody id="codeBody">
-				<!--w-profile/home/componentDetail.js-->
-				<tr ng-repeat="item in sites">
-					<td>{{item.seq}}</td>
-					<td>{{item.name}}</td>
-					<td style="text-align:left;">{{item.address}}</td>
-					<td>{{item.telephone}}</td>
-					<td>{{item.startTime}}-{{item.endTime}}</td>
-					<td>
-						<div style="align:center">
-						<span class="btn btn-success" ng-click="loadCards(item.seq)">卡号</span>
-						<span class="btn btn-success" ng-click="showCardCreateDlg(item.seq)">创建</span>
-						</div>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		-->
+
+			<!--面板-->
+			<div class="panel panel-primary auto-height">
+				<div class="panel-heading">
+					<!-- http://v3.bootcss.com/components/#glyphicons -->
+					<span class="glyphicon glyphicon-th-large"></span>站点管理
+				</div>
+
+				<table class='table table-striped'>
+					<thead>
+						<tr>
+							<th style="width: 10%; text-align: center;">序号</th>
+							<th style="width: 10%; text-align: center;">名称</th>
+							<th style="width: 30%; text-align: center;">地址</th>
+							<th style="width: 20%; text-align: center;">电话</th>
+							<th style="width: 10%; text-align: center;">服务时间</th>
+							<th style="width: 15%; text-align: center;">卡号</th>
+						</tr>
+					</thead>
+					<tbody id="codeBody">
+						<!--w-profile/home/componentDetail.js-->
+						<tr ng-repeat="item in sites">
+							<td>{{item.seq}}</td>
+							<td>{{item.name}}</td>
+							<td style="text-align: left;">{{item.address}}</td>
+							<td>{{item.telephone}}</td>
+							<td>{{item.startTime}}-{{item.endTime}}</td>
+							<td>
+								<div style="align: center">
+									<span class="btn btn-success" ng-click="loadCards(item.seq)">卡号</span>
+									<span class="btn btn-success"
+										ng-click="showCardCreateDlg(item.seq)">创建</span>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<div class="pull-right">
+					<!-- http://v3.bootcss.com/components/#glyphicons -->
+					<span class="btn btn-success" ng-click="showSiteCreateDlg()">创建站点</span>
+				</div>
+			</div>
 		</div>
-	</div>
-	
-	<!-- Card area -->
-	<div id="content_right" class="col-3 col-offset-1">
-		<div class="col-md-3">
-		<div class="tab-pane fade in active" id="tag_1">
-			<ul id="ul_ngbf" ng-repeat="item in cards">
-				<li>
-					<span class="label label-success">{{item.seq}}</span>
-				</li>
-				<!--
+
+		<!-- Card area -->
+		<div id="content_right" class="col-md-3">
+			<div class="tab-pane fade in active" id="tag_1">
+				<ul id="ul_ngbf" ng-repeat="item in cards">
+					<li><span class="label label-success">{{item.seq}}</span></li>
+					<!--
 				<li><a class='btn btn-link' id="doc_NGBF" onclick="loadCarousel('ul_ngbf','NGBF',42)">NGBF基本介绍</a></li>
 				-->
-			</ul>
+				</ul>
+			</div>
 		</div>
+
+	</div>
+
+	<div class="ngbf-footer">
+		<div class="col-md-12" style="height: 45px">
+			<!--<button id="btn_create" type="button" class="btn btn-ml" onclick="showSiteCreateDlg()">创建</button>-->
 		</div>
 	</div>
-	</div>
-	
-	
+
 	<!-- 站点信息 -->
-	<div class="modal fade" id="site_dlg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal fade" id="site_dlg" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
 					<h4 class="modal-title">创建站点</h4>
 				</div>
 				<div class="modal-body">
 					<div class="container">
 						<form class="form-horizontal" role="form" id="form_site">
-						<div class="form-group">
-							<label class="control-label col-sm-1">序号</label>
-							<div class="col-sm-4">
-								<input type="text" class="form-control" id="siteSeq" placeholder="序号:例如001">
+							<div class="form-group">
+								<label class="control-label col-sm-1">序号</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="siteSeq"
+										placeholder="序号:例如001">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label col-sm-1">名称</label>
-							<div class="col-sm-4">
-								<input type="text" class="form-control" id="siteName" placeholder="XX站点">
+							<div class="form-group">
+								<label class="control-label col-sm-1">名称</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="siteName"
+										placeholder="XX站点">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label col-sm-1">地址</label>
-							<div class="col-sm-4">
-								<input type="text" class="form-control" id="siteAddress" placeholder="XXX">
+							<div class="form-group">
+								<label class="control-label col-sm-1">地址</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="siteAddress"
+										placeholder="XXX">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label col-sm-1">电话</label>
-							<div class="col-sm-4">
-								<input type="text" class="form-control" id="siteTelephone" placeholder="61234567">
+							<div class="form-group">
+								<label class="control-label col-sm-1">电话</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="siteTelephone"
+										placeholder="61234567">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label col-sm-1">服务时间</label>
-							<div class="col-sm-2">
-								<input type="text" value="9:00" class="form-control" id="siteStartTime" placeholder="9:00">
+							<div class="form-group">
+								<label class="control-label col-sm-1">服务时间</label>
+								<div class="col-sm-2">
+									<input type="text" value="9:00" class="form-control"
+										id="siteStartTime" placeholder="9:00">
+								</div>
+								<div class="col-sm-2">
+									<input type="text" value="17:00" class="form-control"
+										id="siteEndTime" placeholder="17:00">
+								</div>
 							</div>
-							<div class="col-sm-2">
-								<input type="text" value="17:00" class="form-control" id="siteEndTime" placeholder="17:00">
-							</div>
-						</div>
 						</form>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<span id="infoSiteSuccess" class="label label-success"></span>
-					<span id="infoSiteError" class="label label-danger"></span>
-					<button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">关闭</button>
-					<button type="button" class="btn btn-primary" onclick="doSiteSave()">保存</button>
+					<span id="infoSiteSuccess" class="label label-success"></span> <span
+						id="infoSiteError" class="label label-danger"></span>
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						aria-hidden="true">关闭</button>
+					<button type="button" class="btn btn-primary"
+						onclick="doSiteSave()">保存</button>
 				</div>
 
 			</div>
-			<!-- /.modal-content -->
 		</div>
-		<!-- /.modal-dialog -->
 	</div>
-	<!-- /.modal-fade -->
-	
-	
+
+
 	<!-- 卡号信息 -->
-	<div class="modal fade" id="card_dlg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal fade" id="card_dlg" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
 					<h4 class="modal-title">创建卡号</h4>
 				</div>
 				<div class="modal-body">
 					<div class="container">
 						<form class="form-horizontal" role="form" id="form_card">
-						<div class="form-group">
-							<label class="control-label col-sm-1">站点序号</label>
-							<div class="col-sm-4">
-								<input type="text" value="" class="form-control" id="cardSiteSeq" disabled>
+							<div class="form-group">
+								<label class="control-label col-sm-1">站点序号</label>
+								<div class="col-sm-4">
+									<input type="text" value="" class="form-control"
+										id="cardSiteSeq" disabled>
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label col-sm-1">卡号</label>
-							<div class="col-sm-4">
-								<input type="text" class="form-control" id="cardSeq" placeholder="D000 1111 2222 3333">
+							<div class="form-group">
+								<label class="control-label col-sm-1">卡号</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="cardSeq"
+										placeholder="D000 1111 2222 3333">
+								</div>
 							</div>
-						</div>
 						</form>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<span id="infoCardSuccess" class="label label-success"></span>
-					<span id="infoCardError" class="label label-danger"></span>
-					<button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">关闭</button>
-					<button type="button" class="btn btn-primary" onclick="doCardSave()">保存</button>
+					<span id="infoCardSuccess" class="label label-success"></span> <span
+						id="infoCardError" class="label label-danger"></span>
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						aria-hidden="true">关闭</button>
+					<button type="button" class="btn btn-primary"
+						onclick="doCardSave()">保存</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 </body>
 
 </html>

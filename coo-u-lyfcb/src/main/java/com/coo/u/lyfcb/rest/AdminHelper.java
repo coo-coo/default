@@ -10,7 +10,9 @@ import com.coo.s.lyfcb.model.Apply;
 import com.coo.s.lyfcb.model.Card;
 import com.coo.s.lyfcb.model.Site;
 import com.coo.s.lyfcb.service.IBizService;
-import com.coo.u.lyfcb.model.DbManager;
+import com.coo.u.lyfcb.model.Account;
+import com.coo.u.lyfcb.model.JdbcManager;
+import com.coo.u.lyfcb.model.ModelManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kingstar.ngbf.s.ntp.spi.Token;
@@ -21,38 +23,50 @@ import com.kingstar.ngbf.s.util.StringUtil;
 
 public final class AdminHelper {
 
-	// 存储所有的Token，TODO
-	// private static Map<String,Token> tokens = new HashMap<String,Token>();
+	// 存储所有的Token，TODO 分布式
+	private static Map<String, Token> tokens = new HashMap<String, Token>();
 
 	private static Logger logger = Logger.getLogger(AdminHelper.class);
-	
-	public static void main(String[] args) {
-		String sql = "insert into " + Site.T_NAME
-				+ "(uuid,seq,name) values(?,?,?)";
-		System.out.println(sql);
+
+	/**
+	 * 依据Token获得Token对象
+	 */
+	public static Token getAccountToken(String token) {
+		return tokens.get(token);
 	}
-	
-	
-	
+
+	/**
+	 * 管理员登录实现
+	 */
+	public static Token adminLogin(String username, String password)
+			throws NgbfRuntimeException {
+		// 登录验证
+		if (PubString.isNullOrSpace(username)
+				|| PubString.isNullOrSpace(password)) {
+			throw new NgbfRuntimeException("用户名或密码为空");
+		}
+		Account account = ModelManager.get().getAccounts().get(username);
+		if (account == null || !account.getPassword().equals(password)) {
+			throw new NgbfRuntimeException("用户名或密码错误");
+		}
+
+		// 创建Token,并存储,单内存存储
+		Token token = new Token();
+		token.setAccount(username);
+		token.setRole(account.getRole());
+		token.setPartition(account.getPartition());
+		logger.debug("token==" + token.getToken());
+		tokens.put(token.getToken(), token);
+		return token;
+	}
 	
 	/**
-	 * 仅存留一个Admin的Token，单Admin模型
+	 * 登出操作实现,清除Token
+	 * @param token
 	 */
-	private static Token adminToken = null;
-
-	public Token getAdminToken() {
-		return adminToken;
+	public static void adminLogout(String token) {
+		tokens.remove(token);
 	}
-	
-	public static String getTokenAccount() {
-		return "SBQ";
-	}
-
-	public static void setAdminToken(Token adminToken) {
-		AdminHelper.adminToken = adminToken;
-	}
-	
-	
 
 	/**
 	 * 将键值对的Json数据格式转化成为Map对象
@@ -76,22 +90,25 @@ public final class AdminHelper {
 		String sql = "select * from " + Apply.T_NAME + " where status = ?";
 		Object[] params = new Object[1];
 		params[0] = status;
-		return (List<Apply>) DbManager.get().find(sql, params, Apply.class);
+		return (List<Apply>) JdbcManager.find(sql, params, Apply.class);
 	}
 
 	/**
 	 * 操作员更新申请信息
 	 */
-	public static void updateApplyStatus(String uuid, String status) throws NgbfRuntimeException{
+	public static void updateApplyStatus(String uuid, String status,
+			String token) throws NgbfRuntimeException {
 		String sql = "update " + Apply.T_NAME
 				+ " set status=?,operator=?,operatorTs=?  where uuid=?";
+		// 获得登录人的信息
+		Token t = getAccountToken(token);
 		Object[] params = new Object[4];
 		params[0] = status;
-		params[1] = AdminHelper.getTokenAccount();
+		params[1] = t.getAccount();
 		params[2] = System.currentTimeMillis();
 		params[3] = uuid;
 		logger.debug(sql);
-		DbManager.get().execute(sql, params);
+		JdbcManager.execute(sql, params);
 	}
 
 	/**
@@ -122,7 +139,7 @@ public final class AdminHelper {
 				+ "(uuid,seq,name,address,telephone,startTime,endTime,deposit,longitude,latitude,cityCode,note)"
 				+ " values(?,?,?,?,?,?,?,200.0,0.0,0.0,'LY','')";
 		logger.debug(sql);
-		DbManager.get().execute(sql, params);
+		JdbcManager.execute(sql, params);
 	}
 
 	/**
@@ -146,10 +163,8 @@ public final class AdminHelper {
 				+ "(uuid,seq,name,siteSeq,status,cityCode,note)"
 				+ " values(?,?,'',?,'0','LY','')";
 		logger.debug(sql);
-		DbManager.get().execute(sql, params);
+		JdbcManager.execute(sql, params);
 	}
-
-	
 
 	private static String getStr(Map<String, Object> item, String key) {
 		String v = "";
