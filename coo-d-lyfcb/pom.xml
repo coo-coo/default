@@ -15,7 +15,7 @@
 	
 	<properties>
 		<process.class.path>com.coo.d.lyfcb.MainProcess</process.class.path>
-		<ngbf-u-base.version>2.3.7.0</ngbf-u-base.version>
+		<ngbf-u-base.version>2.3.10.0</ngbf-u-base.version>
 		<ngbf-s-ntp.version>2.3.5.0</ngbf-s-ntp.version>
 	</properties>
 	
