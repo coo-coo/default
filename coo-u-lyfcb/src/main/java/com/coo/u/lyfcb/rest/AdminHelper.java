@@ -59,9 +59,10 @@ public final class AdminHelper {
 		tokens.put(token.getToken(), token);
 		return token;
 	}
-	
+
 	/**
 	 * 登出操作实现,清除Token
+	 * 
 	 * @param token
 	 */
 	public static void adminLogout(String token) {
@@ -107,6 +108,21 @@ public final class AdminHelper {
 		params[1] = t.getAccount();
 		params[2] = System.currentTimeMillis();
 		params[3] = uuid;
+		logger.debug(sql);
+		JdbcManager.execute(sql, params);
+	}
+	
+	/**
+	 * 删除卡信息,假删除
+	 * @param uuid
+	 * @throws NgbfRuntimeException
+	 */
+	public static void deleteCard(String uuid) throws NgbfRuntimeException {
+		String sql = "update " + Card.T_NAME + " set status='9' where uuid=?";
+		// TODO 操作人信息
+		// Token t = getAccountToken(token);
+		Object[] params = new Object[1];
+		params[0] = uuid;
 		logger.debug(sql);
 		JdbcManager.execute(sql, params);
 	}

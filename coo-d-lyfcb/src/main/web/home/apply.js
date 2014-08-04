@@ -29,6 +29,11 @@ function loadApply0($scope,$http){
 	$http.get(url).success(
 		function(msg) {
 			$scope.apply0 = msg.records;
+			// 遍历重新赋值
+			angular.forEach($scope.apply0, function(item) {
+				// 新属性 = F(旧属性)
+				item.applyTsValue = nj.time.date(item.applyTs);
+            });
 		}
 	);
 }

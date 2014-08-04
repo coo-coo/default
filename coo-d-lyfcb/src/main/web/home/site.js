@@ -19,6 +19,11 @@ var siteCtrl = function siteCtrl($scope , $http){
 	$scope.showCardCreateDlg = function(seq){
 		showCardCreateDlg($scope,$http,seq);
 	}
+	
+	$scope.showCardDeleteDlg = function(seq){
+		showCardDeleteDlg($scope,$http,seq);
+	}
+	
 	$scope.showSiteCreateDlg = function(){
 		showSiteCreateDlg($scope,$http);
 	}
@@ -55,16 +60,59 @@ function loadCards($scope,$http,seq){
 	);
 }
 
+// Card操作标志 SAVE|DELETE
+var card_operate = "";
+// 即将删除的Card对象
+var card_item_td_delete = null;
+
+// 显示创建Card对话框
 function showCardCreateDlg($scope,$http,seq){
 	$("#cardSiteSeq").attr("value",seq);
+	$("#cardSeq").attr("disabled",false);
+	// 参见http://v3.bootcss.com/javascript/#modals
+	$('#cardDlgTitle').html("创建卡号");
+	$('#card_dlg').modal("show");
+	card_operate = "SAVE";
+}
+
+// 显示删除Card对话框
+function showCardDeleteDlg($scope,$http,card){
+	$("#cardSiteSeq").attr("value",card.siteSeq);
+	$("#cardSeq").attr("value",card.seq);
+	$('#cardDlgTitle').html("删除卡号");
+	$("#cardSeq").attr("disabled",true);
 	// 参见http://v3.bootcss.com/javascript/#modals
 	$('#card_dlg').modal("show");
+	card_operate = "DELETE";
+	card_item_td_delete = card;
 }
 
-function showSiteCreateDlg($scope,$http){
-	$('#site_dlg').modal("show");
+function doCardOperate(){
+	if(card_operate=="SAVE"){
+		doCardSave();
+	}
+	if(card_operate=="DELETE"){
+		doCardDelete();
+	}
 }
 
+// 卡号删除(未申请的卡号可以删除)
+function doCardDelete(){
+	var url = napp.ns.app_rpc_default + "/card/delete/uuid/" + card_item_td_delete.uuid;
+	//alert(url);
+	$.get(url, function(data) {
+		if (data.head.rep_code == '200') {
+			// 页面重新刷新 uuid不能有中划线,否则div获得不到
+			var cardItemId = "card_" + card_item_td_delete.siteSeq+"_" + card_item_td_delete.seq;
+			// 删除网页端前端对象
+			$("#" + cardItemId).remove();
+			// 对话框隐藏
+			$('#card_dlg').modal("hide");
+		}
+	});
+}
+
+// 卡号保存
 function doCardSave(){
 	var seq = $("#cardSeq").val();
 	var siteSeq = $("#cardSiteSeq").val();
@@ -79,6 +127,10 @@ function doCardSave(){
 			// $("#labelError").html("注册失败");
 		}
 	},'json');
+}
+
+function showSiteCreateDlg($scope,$http){
+	$('#site_dlg').modal("show");
 }
 
 function doSiteSave(){

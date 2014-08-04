@@ -57,7 +57,7 @@ public class Apply extends BasicEntity {
 	 * 申请时间戳
 	 */
 	@Column
-	private long applyTs = 0l;
+	private Long applyTs = 0l;
 	/**
 	 * 操作者账号
 	 */
@@ -67,7 +67,7 @@ public class Apply extends BasicEntity {
 	 * 操作者时间戳
 	 */
 	@Column
-	private long operatorTs = 0l;
+	private Long operatorTs = 0l;
 	/**
 	 * 申请状态：
 	 */

@@ -155,6 +155,17 @@ public class AdminRestService {
 	}
 
 	/**
+	 * 卡号删除操作
+	 */
+	@RequestMapping(value = "card/delete/uuid/{uuid}", method = RequestMethod.GET)
+	@ResponseBody
+	public SimpleMessage<?> cardDelete(@PathVariable("uuid") String uuid) {
+		logger.debug("cardDelete:\t" + uuid);
+		AdminHelper.deleteCard(uuid);
+		return SimpleMessage.ok();
+	}
+	
+	/**
 	 * 创建站点:POST , var param = { "info" : '{"seq":"' + seq + '","name":"' + name
 	 * + '","address":"' + address + '","telephone":"' + telephone +
 	 * '","startTime":"' + startTime + '","endTime":"' + endTime + '"}'};

@@ -61,6 +61,7 @@ public class JdbcManager {
 					}
 					// 获得值
 					Object value = map.get(colName);
+					// logger.debug("colName==" + colName + "\t" + value);
 					if (value != null) {
 						PropertyUtils.setSimpleProperty(instance,
 								field.getName(), value);

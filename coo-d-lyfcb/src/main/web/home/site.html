@@ -86,16 +86,21 @@
 
 		<!-- Card area -->
 		<div id="content_right" class="col-md-3">
-			<div class="tab-pane fade in active" id="tag_1">
-				<ul id="ul_ngbf" ng-repeat="item in cards">
-					<li><span class="label label-success">{{item.seq}}</span></li>
-					<!--
-				<li><a class='btn btn-link' id="doc_NGBF" onclick="loadCarousel('ul_ngbf','NGBF',42)">NGBF基本介绍</a></li>
-				-->
-				</ul>
+			<div class="panel panel-primary auto-height">
+				<div class="panel-heading">
+					<!-- http://v3.bootcss.com/components/#glyphicons -->
+					<span class="glyphicon glyphicon-th-large"></span>卡号信息
+				</div>
+				<table class='table table-striped'>
+						<tbody id="codeBody">
+							<tr ng-repeat="item in cards" id="card_{{item.siteSeq}}_{{item.seq}}">
+								<td style="text-align:left;">{{item.seq}}</td>
+								<td><div align="center"><button type="button" class="close" ng-click="showCardDeleteDlg(item)">&times;</button></div></td>
+							</tr>
+						</tbody>
+				</table>
 			</div>
 		</div>
-
 	</div>
 
 	<div class="ngbf-footer">
@@ -181,7 +186,7 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 class="modal-title">创建卡号</h4>
+					<h4 id="cardDlgTitle" class="modal-title">创建卡号</h4>
 				</div>
 				<div class="modal-body">
 					<div class="container">
@@ -209,7 +214,7 @@
 					<button type="button" class="btn btn-primary" data-dismiss="modal"
 						aria-hidden="true">关闭</button>
 					<button type="button" class="btn btn-primary"
-						onclick="doCardSave()">保存</button>
+						onclick="doCardOperate()">确认</button>
 				</div>
 			</div>
 		</div>
