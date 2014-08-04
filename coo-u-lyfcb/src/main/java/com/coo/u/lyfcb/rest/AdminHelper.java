@@ -3,6 +3,7 @@ package com.coo.u.lyfcb.rest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 
@@ -19,7 +20,7 @@ import com.kingstar.ngbf.s.ntp.spi.Token;
 import com.kingstar.ngbf.s.util.NgbfRuntimeException;
 import com.kingstar.ngbf.s.util.PubString;
 import com.kingstar.ngbf.s.util.SpringContextFactory;
-import com.kingstar.ngbf.s.util.StringUtil;
+//import com.kingstar.ngbf.s.util.StringUtil;
 
 public final class AdminHelper {
 
@@ -143,7 +144,7 @@ public final class AdminHelper {
 			throw new NgbfRuntimeException("站点序号不能为空!");
 		}
 		Object[] params = new Object[7];
-		params[0] = StringUtil.uuid();
+		params[0] = genericUUid();
 		params[1] = seq;
 		params[2] = name;
 		params[3] = address;
@@ -172,7 +173,7 @@ public final class AdminHelper {
 			throw new NgbfRuntimeException("卡号不能为空!");
 		}
 		Object[] params = new Object[3];
-		params[0] = StringUtil.uuid();
+		params[0] = genericUUid();
 		params[1] = seq;
 		params[2] = siteSeq;
 		String sql = "insert into " + Card.T_NAME
@@ -199,6 +200,11 @@ public final class AdminHelper {
 	public static IBizService getBizService() {
 		return (IBizService) SpringContextFactory
 				.getSpringBean(IBizService.SPRING_KEY_DB);
+	}
+	
+	public static String genericUUid() {
+		UUID uuid = UUID.randomUUID();
+		return uuid.toString().replace("-", "");
 	}
 
 }

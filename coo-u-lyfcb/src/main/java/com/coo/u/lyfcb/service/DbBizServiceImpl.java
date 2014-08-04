@@ -3,6 +3,7 @@ package com.coo.u.lyfcb.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
@@ -14,7 +15,6 @@ import com.coo.s.lyfcb.model.Card;
 import com.coo.s.lyfcb.model.Site;
 import com.coo.s.lyfcb.service.IBizService;
 import com.coo.u.lyfcb.model.JdbcManager;
-import com.kingstar.ngbf.s.util.StringUtil;
 
 /**
  * ICardApplyService的数据库实现
@@ -93,7 +93,7 @@ public class DbBizServiceImpl implements IBizService {
 	public void makeApply(Apply apply) {
 		// 存储一条申请记录
 		Object[] params = new Object[8];
-		params[0] = StringUtil.uuid();
+		params[0] = genericUUid();
 		params[1] = apply.getSiteSeq();
 		params[2] = apply.getCardSeq();
 		params[3] = apply.getMemberOpenId();
@@ -122,5 +122,10 @@ public class DbBizServiceImpl implements IBizService {
 		params[1] = seq;
 		params[2] = siteSeq;
 		JdbcManager.execute(sql, params);
+	}
+	
+	public static String genericUUid() {
+		UUID uuid = UUID.randomUUID();
+		return uuid.toString().replace("-", "");
 	}
 }
