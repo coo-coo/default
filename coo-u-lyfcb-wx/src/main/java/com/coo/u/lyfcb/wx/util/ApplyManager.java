@@ -5,6 +5,12 @@ import java.util.Map;
 
 import com.coo.s.lyfcb.model.Apply;
 
+/**
+ * 申请单管理
+ * 
+ * @author bingjue.sun
+ * @date 2013-07-28
+ */
 public class ApplyManager {
 
 	private static final ApplyManager instance = new ApplyManager();
