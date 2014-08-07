@@ -15,7 +15,7 @@ import com.kingstar.ngbf.s.weixin.util.WeixinUtil;
  */
 public class MenuManager {
 
-	public static void main11(String[] args) {
+	public static void main(String[] args) {
 		// 调用接口获取access_token
 		WeixinToken at = WeixinUtil.getAccessToken(INameSpace.APP_ID,
 				INameSpace.APP_SECRET);
