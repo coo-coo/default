@@ -10,7 +10,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.coo</groupId>
 	<artifactId>coo-u-lyfcb-wx</artifactId>
-	<version>0.2.0.0</version>
+	<version>0.3.0.0</version>
 	
 	<dependencies>
 		<dependency>
@@ -27,12 +27,12 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<dependency>
+	<!-- 	<dependency>
 			<groupId>com.kingstar.ngbf</groupId>
 			<artifactId>ngbf-s-ntp</artifactId>
 			<version>2.3.5.0</version>
 			<scope>provided</scope>
-		</dependency>
+		</dependency> -->
 
 		<dependency>
 			<groupId>com.kingstar.ngbf</groupId>
@@ -41,17 +41,17 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.kingstar.ngbf</groupId>
 			<artifactId>ngbf-s-mongo</artifactId>
 			<version>2.2.1.0</version>
 			<scope>provided</scope>
-		</dependency>
+		</dependency> -->
 		
 		<dependency> 
 			<groupId>com.kingstar.ngbf</groupId>
 			<artifactId>ngbf-s-weixin</artifactId>
-			<version>2.3.3.0</version>
+			<version>2.3.4.0</version>
 			<scope>provided</scope>
 		</dependency>
 		

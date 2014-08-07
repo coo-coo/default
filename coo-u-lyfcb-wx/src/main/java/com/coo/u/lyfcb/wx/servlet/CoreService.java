@@ -118,14 +118,7 @@ public class CoreService {
 						"尊敬的" + info[0] + "您好，谢谢您对洛阳公益自行车的关注，您的办卡申请已成功上传，请于"
 								+ LyfcbHelper.getNextDay() + "后，9:00-17:00至"
 								+ map.get(apply.getSiteSeq())
-								+ "站点领取自行车借车卡，领卡时请携带身份证原件及复印件和200押金，谢谢")
-						+
-
-						"\n\n"
-						+ ".name:"
-						+ apply.getUuid()
-						+ ","
-						+ apply.getCardSeq() + "," + apply.getSiteSeq());
+								+ "站点领取自行车借车卡，领卡时请携带身份证原件及复印件和200押金，谢谢"));
 				return responseMessage;
 			}
 		}
