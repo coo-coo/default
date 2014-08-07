@@ -10,7 +10,7 @@
 	<groupId>com.coo</groupId>
 	<artifactId>coo-d-lyfcb</artifactId>
 	<packaging>maven-plugin</packaging>
-	<version>0.2.0.0</version>
+	<version>0.3.0.0</version>
 	<name>coo-d-lyfcb</name>
 	
 	<properties>
@@ -23,14 +23,21 @@
 		<dependency>
 			<groupId>com.coo</groupId>
 			<artifactId>coo-u-lyfcb</artifactId>
-			<version>0.2.0.0</version>
+			<version>0.3.0.0</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.coo</groupId>
+			<artifactId>coo-u-lyfcb-wx</artifactId>
+			<version>0.3.0.0</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>com.coo</groupId>
 			<artifactId>coo-s-lyfcb</artifactId>
-			<version>0.2.0.0</version>
+			<version>0.3.0.0</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
