@@ -57,6 +57,7 @@ public final class AdminHelper {
 		token.setRole(account.getRole());
 		token.setPartition(account.getPartition());
 		logger.debug("token==" + token.getToken());
+		// 存储Token
 		tokens.put(token.getToken(), token);
 		return token;
 	}

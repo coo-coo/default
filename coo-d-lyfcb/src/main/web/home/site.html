@@ -43,8 +43,11 @@
 			<!--面板-->
 			<div class="panel panel-primary auto-height">
 				<div class="panel-heading">
-					<!-- http://v3.bootcss.com/components/#glyphicons -->
-					<span class="glyphicon glyphicon-th-large"></span>站点管理
+					<span class="glyphicon glyphicon-th-large">站点管理</span>
+					<div>
+						<button class="btn btn-primary pull-right"
+							ng-click="showSiteCreateDlg()">创建</button>
+					</div>
 				</div>
 
 				<table class='table table-striped'>
@@ -78,8 +81,9 @@
 				</table>
 
 				<div class="pull-right">
-					<!-- http://v3.bootcss.com/components/#glyphicons -->
+					<!-- http://v3.bootcss.com/components/#glyphicons 
 					<span class="btn btn-success" ng-click="showSiteCreateDlg()">创建站点</span>
+					-->
 				</div>
 			</div>
 		</div>
@@ -92,12 +96,16 @@
 					<span class="glyphicon glyphicon-th-large"></span>卡号信息
 				</div>
 				<table class='table table-striped'>
-						<tbody id="codeBody">
-							<tr ng-repeat="item in cards" id="card_{{item.siteSeq}}_{{item.seq}}">
-								<td style="text-align:left;">{{item.seq}}</td>
-								<td><div align="center"><button type="button" class="close" ng-click="showCardDeleteDlg(item)">&times;</button></div></td>
-							</tr>
-						</tbody>
+					<tbody id="codeBody">
+						<tr ng-repeat="item in cards"
+							id="card_{{item.siteSeq}}_{{item.seq}}">
+							<td style="text-align: left;">{{item.seq}}</td>
+							<td><div align="center">
+									<button type="button" class="close"
+										ng-click="showCardDeleteDlg(item)">&times;</button>
+								</div></td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 		</div>

@@ -55,34 +55,17 @@ public class AdminRestService {
 			@PathVariable("username") String username,
 			@PathVariable("password") String password) {
 		SimpleMessage<?> sm = new SimpleMessage<Object>(SimpleMessageHead.OK);
-
 		try {
 			logger.debug("username:" + username + ", password:" + password);
-			// 账号、密码从配置文件中获得的
+			// 账号、密码从配置文件中获得的，Token已经存储
 			Token token = AdminHelper.adminLogin(username, password);
-			// 存储所有的Token，TODO
+			
 			sm = SimpleMessage.ok().set("token", token.getToken())
 					.set("account", token.getAccount());
-
 		} catch (NgbfRuntimeException e) {
 			sm = new SimpleMessage<Object>(SimpleMessageHead.BIZ_ERROR.repMsg(e
 					.getMessage()));
 		}
-		//
-		// if (username.equals("motu") && password.equals("motu")) {
-		// Token token = new Token();
-		// token.setAccount(username);
-		// token.setRole("ADMIN");
-		// // 设置单例登录....
-		// AdminHelper.setAdminToken(token);
-		// // 存储所有的Token，TODO
-		// sm = SimpleMessage.ok().set("token", token.getToken());
-		// // 返回前端,用于界面显示
-		// sm = SimpleMessage.ok().set("account", token.getAccount());
-		// } else {
-		// sm = new SimpleMessage<Object>(
-		// SimpleMessageHead.BIZ_ERROR.repMsg("用户名或密码不正确!"));
-		// }
 		return sm;
 	}
 
@@ -104,7 +87,7 @@ public class AdminRestService {
 	@ResponseBody
 	public SimpleMessage<Site> siteAll() {
 		SimpleMessage<Site> sm = new SimpleMessage<Site>(SimpleMessageHead.OK);
-		// TODO 从MYSQL数据库中获得
+		// 从MYSQL数据库中获得
 		List<Site> items = AdminHelper.getBizService().findSiteAll();
 		for (Site item : items) {
 			sm.addRecord(item);
@@ -116,7 +99,7 @@ public class AdminRestService {
 	@ResponseBody
 	public SimpleMessage<Apply> applyAll(@PathVariable("status") String status) {
 		SimpleMessage<Apply> sm = new SimpleMessage<Apply>(SimpleMessageHead.OK);
-		// TODO 从MYSQL数据库中获得
+		// 从MYSQL数据库中获得
 		List<Apply> items = AdminHelper.findApplyAll(status);
 		for (Apply item : items) {
 			sm.addRecord(item);
@@ -146,7 +129,7 @@ public class AdminRestService {
 	@ResponseBody
 	public SimpleMessage<Card> cardAll(@PathVariable("seq") String seq) {
 		SimpleMessage<Card> sm = new SimpleMessage<Card>(SimpleMessageHead.OK);
-		// TODO 从MYSQL数据库中获得
+		// 从MYSQL数据库中获得
 		List<Card> items = AdminHelper.getBizService().findCardAll(seq);
 		for (Card item : items) {
 			sm.addRecord(item);
@@ -155,7 +138,7 @@ public class AdminRestService {
 	}
 
 	/**
-	 * 卡号删除操作
+	 * TODO 卡号删除操作，操作员信息Token
 	 */
 	@RequestMapping(value = "card/delete/uuid/{uuid}", method = RequestMethod.GET)
 	@ResponseBody
