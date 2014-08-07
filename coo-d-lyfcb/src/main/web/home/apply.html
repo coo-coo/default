@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+<head>
+<title>LYFCB:申请管理</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<link href="../assets/common/bootstrap.css" rel="stylesheet">
+<link href="../assets/common/bootstrap.responsive.css" rel="stylesheet">
+
+<style>
+.center {
+	margin-left: auto !important;
+	margin-right: auto !important;
+	float: none !important;
+	display: block;
+	text-align: center;
+}
+</style>
+</head>
+
+<body ng-controller="pageCtrl">
+	<!-- 何用 -->
+	<nav id="ngbf-header-bar" role="navigation"></nav>
+	
+	<div class="container">
+		<div class="col-md-12" style="height:45px"></div>
+	</div>
+	
+	<div class="col-12" id="content">
+		
+		
+
+
+		<div class="col-md-12">
+		<!-- http://v3.bootcss.com/css/#tables -->
+		<div class="panel panel-primary auto-height">
+			<div class="panel-heading"><span class="glyphicon glyphicon-check"></span>申请管理</div>
+		<table class='table table-striped'>
+			<thead>
+				<tr>
+					<th style="width:10%;text-align:center;">站点</th>
+					<th style="width:15%;text-align:center;">卡号</th>
+					<th style="width:10%;text-align:center;">申请人</th>
+					<th style="width:10%;text-align:center;">手机</th>
+					<th style="width:20%;text-align:center;">身份证</th>
+					<th style="width:15%;text-align:center;">申请时间</th>
+					<th style="width:20%;text-align:center;">操作</th>
+				</tr>
+			</thead>
+			<tbody id="codeBody">
+				<!--w-profile/home/componentDetail.js-->
+				<tr ng-repeat="item in apply0">
+					<td style="text-align:center;">{{item.siteSeq}}</td>
+					<td>{{item.cardSeq}}</td>
+					<td style="text-align:center;">{{item.memberName}}</td>
+					<td style="text-align:center;">{{item.memberMobile}}</td>
+					<td style="text-align:center;">{{item.memberIdCard}}</td>
+					<td style="text-align:center;">{{item.applyTsValue}}</td>
+					<td style="text-align:center;">
+						<!--
+						<select ng-model="ampm" ng-options="currOption for currOption in ['AM', 'PM']"></select>
+						-->
+						<span class="btn btn-success glyphicon glyphicon-ok-sign" ng-click="showApllyAgree(item)">发证执行</span>
+						<span class="btn btn-warning glyphicon glyphicon-remove-sign" ng-click="showApllyCancel(item)">过期取消</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+			</div>
+				</div>	
+		</div>
+	</div>
+	
+	
+	<!-- 卡号信息 -->
+	<div class="modal fade" id="apply_agree_dlg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">办卡执行</h4>
+				</div>
+				<div class="modal-body">
+					<div class="container">
+						<form class="form-horizontal" role="form" id="form_card">
+						<div class="form-group">
+							<label class="control-label col-sm-1">站点序号</label>
+							<div class="col-sm-4">
+								<input type="text" value="" class="form-control" id="applySiteSeq" disabled>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-1">卡号</label>
+							<div class="col-sm-4">
+								<input type="text" value="" class="form-control" id="applyCardSeq" disabled>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-1">申请人</label>
+							<div class="col-sm-4">
+								<input type="text" value="" class="form-control" id="applyMemberName" disabled>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-1">身份证</label>
+							<div class="col-sm-4">
+								<input type="text" value="" class="form-control" id="applyMemberIdCard" disabled>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="control-label col-sm-1">办理人</label>
+							<div class="col-sm-4">
+								<input type="text" value="" class="form-control" id="applyOperator" disabled>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-1">办理时间</label>
+							<div class="col-sm-4">
+								<input type="text" value="" class="form-control" id="applyOperatorTs" disabled>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="control-label col-sm-1">办理状态</label>
+							<div class="col-sm-4">
+								<input type="text" value="" class="form-control" id="applyOperatorStatusValue" disabled>
+								<input type="hidden" value="" id="applyUuid" disabled>
+								<input type="hidden" value="" id="applyOperatorStatus" disabled>
+							</div>
+						</div>
+						
+						</form>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<span id="infoCardSuccess" class="label label-success"></span>
+					<span id="infoCardError" class="label label-danger"></span>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">关闭</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="doApplyUpdate()" >执行</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</body>
+
+</html>
+
+<!-- 在页面底部加载JS，促进页面加载速度 -->
+<!-- JQuery & NGBF -->
+<script src="../assets/common/jquery.js"></script>
+<script src="../assets/common/bootstrap.js"></script>
+<script src="../assets/common/angular.min.js"></script>
+
+<script src="../assets/common/ngbf-web.js"></script>
+<script src="../ngbf-app.js"></script>
+<script src="apply.js"></script>

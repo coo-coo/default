@@ -15,12 +15,19 @@ public class Apply extends BasicEntity {
 	public static String STATUS_START = "0"; // 已申请，未办理
 	public static String STATUS_FINISH = "1"; // 已申请，已办理
 	public static String STATUS_WITHDRAWED = "9"; // 申请后放弃
+	
+	public static String SOURCE_WX = "1"; 	// 微信申请
 
 	/**
 	 * 场所序号，参见Site.seq
 	 */
 	@Column
 	private String siteSeq = "";
+	/**
+	 * 站点名称
+	 */
+	@Column
+	private String siteName = "";
 	/**
 	 * 序号：12位，第一位是大写字母，剩下11位是数字
 	 */
@@ -50,7 +57,7 @@ public class Apply extends BasicEntity {
 	 * 申请时间戳
 	 */
 	@Column
-	private long applyTs = 0l;
+	private Long applyTs = 0l;
 	/**
 	 * 操作者账号
 	 */
@@ -60,7 +67,7 @@ public class Apply extends BasicEntity {
 	 * 操作者时间戳
 	 */
 	@Column
-	private long operatorTs = 0l;
+	private Long operatorTs = 0l;
 	/**
 	 * 申请状态：
 	 */
@@ -69,6 +76,11 @@ public class Apply extends BasicEntity {
 	
 	@Column
 	private String note = "";
+	/**
+	 * 申请来源：WX，备用缺省字段
+	 */
+	@Column
+	private String source = SOURCE_WX;
 
 	public String getSiteSeq() {
 		return siteSeq;
@@ -157,4 +169,22 @@ public class Apply extends BasicEntity {
 	public void setNote(String note) {
 		this.note = note;
 	}
+
+	public String getSiteName() {
+		return siteName;
+	}
+
+	public void setSiteName(String siteName) {
+		this.siteName = siteName;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+	
+	
 }

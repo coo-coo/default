@@ -1,4 +1,4 @@
-package com.coo.u.lyfcb.service;
+package com.coo.u.lyfcb.model;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -17,14 +17,14 @@ import com.kingstar.ngbf.s.util.NgbfRuntimeException;
 import com.kingstar.ngbf.s.util.PubString;
 import com.kingstar.ngbf.s.util.SpringContextFactory;
 
-public class ModelManager {
+public class JdbcManager {
 
-	private Logger logger = Logger.getLogger(ModelManager.class);
+	private static Logger logger = Logger.getLogger(JdbcManager.class);
 
 	/**
 	 * 查询获得SQL全部数据
 	 */
-	public List<?> find(String sql, Object[] params, Class<?> clz) {
+	public static List<?> find(String sql, Object[] params, Class<?> clz) {
 		List<Object> list = new ArrayList<Object>();
 		// 如果出错,打印日志信息,但是不报错
 
@@ -45,7 +45,7 @@ public class ModelManager {
 	/**
 	 * 将对象合并成一个类
 	 */
-	public Object merge(Map<String, Object> map, Class<?> clz) {
+	public static Object merge(Map<String, Object> map, Class<?> clz) {
 		try {
 			Object instance = clz.newInstance();
 			// 获得所有的字段,该字段可能对应有数据库的Column
@@ -61,6 +61,7 @@ public class ModelManager {
 					}
 					// 获得值
 					Object value = map.get(colName);
+					// logger.debug("colName==" + colName + "\t" + value);
 					if (value != null) {
 						PropertyUtils.setSimpleProperty(instance,
 								field.getName(), value);
@@ -77,7 +78,7 @@ public class ModelManager {
 	/**
 	 * 执行SQL语句
 	 */
-	public void execute(String sql, Object[] params)
+	public static void execute(String sql, Object[] params)
 			throws NgbfRuntimeException {
 		try {
 			jdbcTemplate.update(sql, params);
@@ -93,7 +94,7 @@ public class ModelManager {
 	 * 
 	 * @return
 	 */
-	private JdbcTemplate getTemplate() {
+	private static JdbcTemplate getTemplate() {
 		if (jdbcTemplate == null) {
 			jdbcTemplate = (JdbcTemplate) SpringContextFactory
 					.getSpringBean("jdbcTemplate");
@@ -101,27 +102,4 @@ public class ModelManager {
 		return jdbcTemplate;
 	}
 
-	/**
-	 * 单实例
-	 */
-	private static ModelManager instance;
-
-	/**
-	 * 获取实例,采用synchronized避免多线程冲突
-	 * 
-	 * @return
-	 */
-	public static synchronized ModelManager get() {
-		if (instance == null) {
-			instance = new ModelManager();
-		}
-		return instance;
-	}
-
-	/**
-	 * 私有构造函数
-	 */
-	private ModelManager() {
-
-	}
 }

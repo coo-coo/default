@@ -15,6 +15,7 @@ import com.coo.s.lyfcb.model.Site;
 import com.kingstar.ngbf.s.ntp.SimpleMessage;
 import com.kingstar.ngbf.s.ntp.SimpleMessageHead;
 import com.kingstar.ngbf.s.ntp.spi.Token;
+import com.kingstar.ngbf.s.util.NgbfRuntimeException;
 
 /**
  * 卡号信息业务维护:SBQ http://ip:port/lyfcb/rest/
@@ -26,6 +27,26 @@ public class AdminRestService {
 	private Logger logger = Logger.getLogger(AdminRestService.class);
 
 	/**
+	 * 获得登录人信息
+	 */
+	@RequestMapping(value = "admin/info/token/{token}", method = RequestMethod.GET)
+	@ResponseBody
+	public SimpleMessage<?> adminInfo(@PathVariable("token") String token) {
+		SimpleMessage<?> sm = null;
+		// 账号、密码从配置文件中获得的
+		Token t = AdminHelper.getAccountToken(token);
+		if (t != null) {
+			sm = SimpleMessage.ok().set("token", t.getToken())
+					.set("account", t.getAccount()).set("role", t.getRole())
+					.set("partition", t.getPartition());
+		} else {
+			sm = new SimpleMessage<Object>(
+					SimpleMessageHead.BIZ_ERROR.repMsg("Token不存在!"));
+		}
+		return sm;
+	}
+
+	/**
 	 * Admin登陆
 	 */
 	@RequestMapping(value = "admin/login/username/{username}/password/{password}", method = RequestMethod.GET)
@@ -34,19 +55,16 @@ public class AdminRestService {
 			@PathVariable("username") String username,
 			@PathVariable("password") String password) {
 		SimpleMessage<?> sm = new SimpleMessage<Object>(SimpleMessageHead.OK);
-		logger.debug("username:" + username + ", password:" + password);
-		// TODO 密码从配置文件中获得的
-		if (username.equals("motu") && password.equals("motu")) {
-			Token token = new Token();
-			token.setAccount(username);
-			token.setRole("ADMIN");
-			// 设置单例登录....
-			AdminHelper.setAdminToken(token);
-			// 存储所有的Token，TODO
-			sm = SimpleMessage.ok().set("token", token.getToken());
-		} else {
-			sm = new SimpleMessage<Object>(
-					SimpleMessageHead.BIZ_ERROR.repMsg("用户名或密码不正确!"));
+		try {
+			logger.debug("username:" + username + ", password:" + password);
+			// 账号、密码从配置文件中获得的，Token已经存储
+			Token token = AdminHelper.adminLogin(username, password);
+			
+			sm = SimpleMessage.ok().set("token", token.getToken())
+					.set("account", token.getAccount());
+		} catch (NgbfRuntimeException e) {
+			sm = new SimpleMessage<Object>(SimpleMessageHead.BIZ_ERROR.repMsg(e
+					.getMessage()));
 		}
 		return sm;
 	}
@@ -54,12 +72,12 @@ public class AdminRestService {
 	/**
 	 * Admin登出
 	 */
-	@RequestMapping(value = "admin/logout", method = RequestMethod.GET)
+	@RequestMapping(value = "admin/logout/token/{token}", method = RequestMethod.GET)
 	@ResponseBody
-	public SimpleMessage<?> adminLogout() {
-		AdminHelper.setAdminToken(null);
-		SimpleMessage<?> sm = SimpleMessage.ok();
-		return sm;
+	public SimpleMessage<?> adminLogout(@PathVariable("token") String token) {
+		// 清除Token
+		AdminHelper.adminLogout(token);
+		return SimpleMessage.ok();
 	}
 
 	/**
@@ -69,7 +87,7 @@ public class AdminRestService {
 	@ResponseBody
 	public SimpleMessage<Site> siteAll() {
 		SimpleMessage<Site> sm = new SimpleMessage<Site>(SimpleMessageHead.OK);
-		// TODO 从MYSQL数据库中获得
+		// 从MYSQL数据库中获得
 		List<Site> items = AdminHelper.getBizService().findSiteAll();
 		for (Site item : items) {
 			sm.addRecord(item);
@@ -81,10 +99,25 @@ public class AdminRestService {
 	@ResponseBody
 	public SimpleMessage<Apply> applyAll(@PathVariable("status") String status) {
 		SimpleMessage<Apply> sm = new SimpleMessage<Apply>(SimpleMessageHead.OK);
-		// TODO 从MYSQL数据库中获得
+		// 从MYSQL数据库中获得
 		List<Apply> items = AdminHelper.findApplyAll(status);
 		for (Apply item : items) {
 			sm.addRecord(item);
+		}
+		return sm;
+	}
+
+	@RequestMapping(value = "apply/update/uuid/{uuid}/status/{status}/token/{token}", method = RequestMethod.GET)
+	@ResponseBody
+	public SimpleMessage<?> applyUpdate(@PathVariable("uuid") String uuid,
+			@PathVariable("status") String status,@PathVariable("token") String token) {
+		SimpleMessage<?> sm = SimpleMessage.ok();
+		try {
+			// 进行信息的更新返回
+			AdminHelper.updateApplyStatus(uuid, status,token);
+		} catch (Exception e) {
+			sm = SimpleMessage.blank().head(
+					SimpleMessageHead.BIZ_ERROR.repMsg(e.getMessage()));
 		}
 		return sm;
 	}
@@ -96,7 +129,7 @@ public class AdminRestService {
 	@ResponseBody
 	public SimpleMessage<Card> cardAll(@PathVariable("seq") String seq) {
 		SimpleMessage<Card> sm = new SimpleMessage<Card>(SimpleMessageHead.OK);
-		// TODO 从MYSQL数据库中获得
+		// 从MYSQL数据库中获得
 		List<Card> items = AdminHelper.getBizService().findCardAll(seq);
 		for (Card item : items) {
 			sm.addRecord(item);
@@ -105,6 +138,17 @@ public class AdminRestService {
 	}
 
 	/**
+	 * TODO 卡号删除操作，操作员信息Token
+	 */
+	@RequestMapping(value = "card/delete/uuid/{uuid}", method = RequestMethod.GET)
+	@ResponseBody
+	public SimpleMessage<?> cardDelete(@PathVariable("uuid") String uuid) {
+		logger.debug("cardDelete:\t" + uuid);
+		AdminHelper.deleteCard(uuid);
+		return SimpleMessage.ok();
+	}
+	
+	/**
 	 * 创建站点:POST , var param = { "info" : '{"seq":"' + seq + '","name":"' + name
 	 * + '","address":"' + address + '","telephone":"' + telephone +
 	 * '","startTime":"' + startTime + '","endTime":"' + endTime + '"}'};
@@ -112,9 +156,7 @@ public class AdminRestService {
 	@RequestMapping(value = "site/create", method = RequestMethod.POST)
 	@ResponseBody
 	public SimpleMessage<?> siteCreate(String info) {
-		System.out.println("siteCreate:" + info);
-		logger.info(info);
-
+		logger.debug(info);
 		// 创建返回消息
 		SimpleMessage<?> sm = SimpleMessage.ok();
 		try {
@@ -133,7 +175,6 @@ public class AdminRestService {
 	@RequestMapping(value = "card/create", method = RequestMethod.POST)
 	@ResponseBody
 	public SimpleMessage<?> cardCreate(String info) {
-		System.out.println("cardCreate:" + info);
 		logger.debug(info);
 		// 创建返回消息
 		SimpleMessage<?> sm = SimpleMessage.ok();

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ngbf resource="account">
+	<resource account="motu" password="motu" partition="000" role="GLOBAL" />
+	<resource account="001" password="001" partition="001" role="ADMIN" />
+	<resource account="002" password="002" partition="002" role="ADMIN" />
+	<resource account="003" password="003" partition="003" role="ADMIN" />
+</ngbf>

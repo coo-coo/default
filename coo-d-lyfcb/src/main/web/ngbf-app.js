@@ -6,7 +6,7 @@ $(document).ready(function() {
 	var url = location.href;
 	var token = sessionStorage.getItem("ngbf.session.token");
 	if(!token && url.indexOf("/login.html") < 0){
-		// location.href = "../home/login.html";
+		location.href = "../home/login.html";
 	}
 });
 
@@ -24,7 +24,10 @@ napp.head = {
 napp.menuitems = [{
 	"id" : "site-mgt",
 	"label" : "站点管理",
-	"value" : "../home/site.html"
+	"value" : "../home/site.html"},
+	{"id" : "apply-mgt",
+	"label" : "申请管理",
+	"value" : "../home/apply.html"
 }];
 
 // 应用上下文命名空间
@@ -32,6 +35,5 @@ napp.ns = {
 	"web_footer_text" : "<address>@Sungard/NGBF 2011-2013浏览器支持:Chrome|Safari|Firefox|Opera </address>",
 	"web_login_support" : "true",
 	"app_apikey" : "1234",
-	"app_rpc_default" : "http://ngbf/oss/"
+	"app_rpc_default" : "/lyfcb/rest"
 };
-

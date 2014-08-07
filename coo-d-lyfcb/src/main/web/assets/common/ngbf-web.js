@@ -5,6 +5,7 @@ var nj = new Object;
 
 // 定义Session的AccountID @since 1.8.0.0
 var NJID_SESSION_ACCOUNT = "ngbf.session.account";
+var NJID_SESSION_TOKEN = "ngbf.session.token";
 
 // //////////////////////////////////////////////////////////////////////////////
 // /////////////////// nj.util /////////////////////////
@@ -67,7 +68,6 @@ nj.web.menubar = function(items, id) {
 	var $ul = $("<ul id='header_bar_ul' class='nav nav-pills pull-left'></ul>");
 
 	for (i = 0; i < items.length; i++) {
-		
 		if(items[i].subMenu != undefined && items[i].subMenu != null &&  items[i].subMenu.length > 0){
 			if (items[i].id == id) {
 				var $dropdown = $("<li class='dropdown active' id='menubar_item_"+ items[i].id	+ "'>");
@@ -148,82 +148,44 @@ nj.web.menubar = function(items, id) {
 
 	}
 	$container.append($ul);
+	
 	// 判断是否需要显示登录按钮
-
-	/*if (napp.ns.web_login_support == "true") {
+	if (napp.ns.web_login_support == "true") {
 		// 增加Session判定部分，增加右上角部分内容
-		var value = sessionStorage.getItem(NJID_SESSION_ACCOUNT);
-		if (value == null) {
-			//@deprecated @since 2.3.1.0
-			//var loginModal = getLoginModal();
-			//$container.append(loginModal);
+		var token = sessionStorage.getItem("ngbf.session.token");
+		var account = sessionStorage.getItem("ngbf.session.account");
+		if (token == null) {
+			// 如果没有Token,本实力暂不支持
 			$container
 					.append("<div id='loginArea'><a class='pull-right' id='login_info' href='#' onclick='nj.auth.loginDialogShow()' style='margin-top:12px;'><font color='white'>登录</font></a>"
 							+ "<div class='col-md-2 pull-right' style='vertical-align:middle;margin-top:5px;'><div class='input-group'>"
-							+ "<input type='text' class='form-control input-sm col-md-10' placeholder='search…'><span class='btn btn-default input-group-addon'><i class='glyphicon glyphicon-search'></i></span></div>&nbsp;&nbsp;"
+							+ "</i></span></div>&nbsp;&nbsp;"
 							+ "</div></div>");
 		} else {
+			// 有Token
 			$container
-					.append("<div id='loginArea'><div class='pull-right dropdown' style='vertical-align:middle;margin-top:5px;'><a class='dropdown-toggle' data-toggle='dropdown' ><img src='../home/image/team/"+value+".png' width='28px' height='30px' data-toggle='tooltip' title='"+value+"' data-trigger='hover' data-placement='bottom'/><b class='caret' style='border-top:4px solid #428bca;'></b></a>"
+					.append("<div id='loginArea'><div class='pull-right dropdown' style='vertical-align:middle;margin-top:10px;'><a class='dropdown-toggle' data-toggle='dropdown' >"+account+"<b class='caret' style='border-top:4px solid #428bca;' /></a>"
 							+"<ul class='dropdown-menu' role='menu' aria-labelledby='dropdownMenu1'>"
-						    +"<li role='presentation'><a role='menuitem' tabindex='-1' href='#' onclick='onMenubarItemClick(\"profile\" , \"../profile/profile.html\");'>我的账号</a></li>"
-						    +"<li role='presentation'><a role='menuitem' tabindex='-1' href='#' onclick='onMenubarItemClick(\"organization\" , \"../profile/organization.html\");'>我的关系</a></li>"
-						    +"<li role='presentation' class='divider'></li>"
-						    +" <li role='presentation'><a role='menuitem' tabindex='-1' href='#' onclick='nj.auth.doLoginOut();'>注销</a></li>"
-						    +"</ul>"
-							+ "</div>"
-							+ "<div class='pull-right col-md-2' style='vertical-align:middle;margin-top:5px;'>"
-							+ "<div class='input-group'><input type='text' class='form-control input-sm col-md-10' placeholder='search…'>"
-							+ "<span class='btn btn-default input-group-addon' onclick='onMenubarItemClick(\"search\" , \"home/search.html\");'><i class='glyphicon glyphicon-search'></i></span></div></div></div>");
+						    //+"<li role='presentation'><a role='menuitem' tabindex='-1' href='#' onclick='onMenubarItemClick(\"profile\" , \"../profile/profile.html\");'>我的账号</a></li>"
+						    //+"<li role='presentation'><a role='menuitem' tabindex='-1' href='#' onclick='onMenubarItemClick(\"organization\" , \"../profile/organization.html\");'>我的关系</a></li>"
+						    //+"<li role='presentation' class='divider'></li>"
+						    +"<li role='presentation'><a role='menuitem' tabindex='-1' href='#' onclick='nj.auth.doLoginOut();'>注销</a></li>"
+						    +"</ul></div></div>");
 		}
 	}
-*/
+	
+	// 添加右上角的Container
 	$navbar.append($container);
+	// 添加菜单项
 	bar.append($navbar);
 }
+
 nj.web.loadmenubar = function(title ,  focus){
 	nj.headmeta(title);
 	nj.bar(napp.menuitems, focus);
 	nj.footer();
 } 
-function getLoginModal(){
-	var ls = '<div id="ngbf_login_dlg" class="modal fade" id="login_modal" tabindex="-1" role="dialog" aria-labelledby="login_label" aria-hidden="true">'+
-	'<div class="modal-dialog" style="width:400px;padding-top: 50px;">'+
-		'<div class="modal-content">'+
-			'<div class="modal-header">'+
-				'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-				'<h3>用户登录</h3>'+
-			'</div>'+
-			'<div class="modal-body">'+
-					'<form class="form-horizontal"  method="post" role="form">'+
-						'<div class="form-group">'+
-							'<span for="login_username" class="col-sm-4 control-label">域账号</span>'+
-						    '<div class="col-sm-6">'+
-						      '<input id="login_username" type="text" placeholder="username" class="form-control"/>'+
-						    '</div>'+
-						'</div>'+
-						'<div class="form-group">'+
-							'<span for="login_password" class="col-sm-4 control-label">密&nbsp;&nbsp;&nbsp;码</span>'+
-						    '<div class="col-sm-6">'+
-						      '<input id="login_password" type="password" placeholder="password" class="form-control"/>'+
-						    '</div>'+
-	    				'</div>'+
-					'</form>'+
-			  '<div class="form-group" >'+
-                  '<label class="col-sm-4 control-label"></label>'+
-                     '<div class="col-sm-6" style="color:red;height:100%;min-height:30px;" id="loginErrorMsg">'+
-                     '</div>'+
-              '</div>'+
-			'</div>'+
-			'<div class="modal-footer">'+
-				'<a href="http://ngbf/oss/plugins/ngbf-c-account/AccountForgotPassword.xhtml">忘记密码？</a>'+
-				'<button id="btn_login" class="btn btn-primary" onclick="nj.auth.doLogin()">登 录</button>'+
-			'</div>'+
-		'</div>'+
-	'</div>'+
-'</div>';
-	return ls;
-}
+
 // 单击
 function onMenubarItemClick(id, url) {
 	// 清除样式,重新设定样式
@@ -262,9 +224,7 @@ nj.web.footer = function(items) {
 	 * $row.append("<address>@Sungard/NGBF 2011-2013
 	 * 浏览器支持:Chrome|Safari|Firefox|Opera </address>");
 	 */
-	if (napp.ns.footer != null) {
-		$row.append(napp.ns.footer);
-	}
+	$row.append(napp.ns.web_footer_text);
 	footer.append($row);
 }
 
@@ -484,128 +444,17 @@ nj.auth.getAccount = function() {
 	return sessionStorage.getItem("ngbf.session.account");
 }
 
-/**
- * 弹出登录对话框,页面必须有<div id="ngbf_login_dlg"></div>
- * 
- * @since 1.2.3.0
- */
-nj.auth.loginDialogShow = function() {
 
-	
-	/*
-	 * dlg.attr("class", "modal fade").attr("role", "dialog"); var $modalDialog =
-	 * $("<div class='modal-dialog'>"+ "<div class='modal-content'></div></div>") ;
-	 * $modalDialog .append("<div class='modal-header'><h3>用户登录</h3></div><div
-	 * class='modal-body'><div class='container-fluid'><div class='span1'><label>用户名</label></div><div
-	 * class='span1'><input id='login_username' type='text' /></div></div><div
-	 * class='container-fluid'><div class='span1'><label>密码</label></div><div
-	 * class='span1'><input id='login_password' type='password' /></div></div></div><div
-	 * class='modal-footer'><button id='btn_login' class='btn btn-default'
-	 * onclick='nj.auth.doLogin()'>登 录</button></div>");
-	 * dlg.append($modalDialog) ;
-	 */
-	//@deprecated since 2.3.0.0
-	/*var dlg = $('#ngbf_login_dlg');
-	$("#loginErrorMsg").text("");
-	dlg.modal({
-		  backdrop:true,
-		  keyboard:true,
-		  show:true
-		});*/
-	window.location.href="../home/login.html";
-}
 nj.context="/oss";
-/**
- * 进行登录判定，loginDialogShow的登录按钮实现
- * 
- * @since 1.2.3.0
- */
-nj.auth.doLogin = function() {
-	var username = $('#login_username').val();
-	var password = $('#login_password').val();
-var req_url = nj.context + "/rest/login/"+username+"/"+password;
-	$.get(req_url, function(msg){
-		if(msg.head.rep_code == '500'){
-			 $("#loginErrorMsg").text(msg.head.rep_message);
-//			window.location = "index.html";
-			// 隐藏登录框
-//			 $('#ngbf_login_dlg').modal('toggle');
-		}
-		if(msg.head.rep_code == '200'){
-			
-			// alert(username + "-" + password);
-			// TODO 密码加密
-			// TODO 验证登录是否成功
-			sessionStorage.setItem("ngbf.session.account", username);
-			//发送一条twitter信息
-			var content = "登陆应用" ;
-			var data = {account:username,twitter:content,type:"login"} ;
-			$.post("/oss/rest/twitter/",data, function(msg){});
-			// 隐藏登录框
-			 $('#ngbf_login_dlg').modal('toggle');
-			 $("#loginArea")
-				.html("<div class='pull-right dropdown' style='vertical-align:middle;margin-top:5px;'><a class='dropdown-toggle' data-toggle='dropdown' ><img src='../home/image/team/"+username+".png' width='28px' height='30px' data-toggle='tooltip' title='"+username+"' data-trigger='hover' data-placement='bottom'/><b class='caret' style='border-top:4px solid #428bca;'></b></a>"
-						+"<ul class='dropdown-menu' role='menu' aria-labelledby='dropdownMenu1'>"
-					    +"<li role='presentation'><a role='menuitem' tabindex='-1' href='#' onclick='onMenubarItemClick(\"profile\" , \"../profile/profile.html\");'>我的账号</a></li>"
-					    +"<li role='presentation'><a role='menuitem' tabindex='-1' href='#' onclick='onMenubarItemClick(\"organization\" , \"../profile/organization.html\");'>我的关系</a></li>"
-					    +"<li role='presentation' class='divider'></li>"
-					    +" <li role='presentation'><a role='menuitem' tabindex='-1' href='#' onclick='nj.auth.doLoginOut();'>注销</a></li>"
-					    +"</ul>"
-						+ "</div>"
-						+ "<div class='pull-right col-md-2' style='vertical-align:middle;margin-top:5px;'>"
-						+ "<div class='input-group'><input type='text' class='form-control input-sm col-md-10' placeholder='search…'>"
-						+ "<span class='btn btn-default input-group-addon' onclick='onMenubarItemClick(\"search\" , \"home/search.html\");'><i class='glyphicon glyphicon-search'></i></span></div></div>");
-			 nj.web.changeUrl(getCurrentUrl()) ; 
-			// 暂时先简单的页面刷新处理
-//			window.location = "index.html";
-			// 修改右上角登录人信息
-//			 $('#login_info').attr("class","btn disabled").attr('onclick',null).html("登录人:"+username);
 
-		}
-		$('#login_username').val('');
-
-
-
-		$('#login_password').val('');
-		
-	});
-	// alert(username + "-" + password);
-	// TODO 密码加密
-	// TODO 验证登录是否成功
-	//sessionStorage.setItem("ngbf.session.account", username);
-
-	// 隐藏登录框
-	// $('#ngbf_login_dlg').modal('toggle');
-
-	// 暂时先简单的页面刷新处理
-	//window.location = "index.html";
-	// 修改右上角登录人信息
-	// $('#login_info').attr("class","btn
-	// disabled").attr('onclick',null).html("登录人:"+username);
-}
 /**
  * 退出，清除session内容
  */
 nj.auth.doLoginOut = function() {
-	var username = nj.auth.getAccount() ;
+	// 清除Account|Token等信息
 	sessionStorage.removeItem("ngbf.session.account");
-	//发送一条twitter信息
-	var content = "登出应用" ;
-	var data = {account:username,twitter:content,type:"login"} ;
-	$.post("/oss/rest/twitter/",data, function(msg){});
-	
-	$("#loginArea").html("<a class='pull-right' id='login_info' href='#' onclick='nj.auth.loginDialogShow()' style='margin-top:12px;'><font color='white'>登录</font></a>"
-			+ "<div class='col-md-2 pull-right' style='vertical-align:middle;margin-top:5px;'><div class='input-group'>"
-			+ "<input type='text' class='form-control input-sm col-md-10' placeholder='search…'><span class='btn btn-default input-group-addon'><i class='glyphicon glyphicon-search'></i></span></div>&nbsp;&nbsp;"
-			+ "</div>");
-	var url = getCurrentUrl();
-	if(url == "profile/profile.html" || url == "profile/organization.html"){
-		nj.web.changeUrl("home/index.html");
-	}else{
-		nj.web.changeUrl(getCurrentUrl()) ; 
-	}
-//	nj.web.changeUrl(getCurrentUrl()) ; 
-	//window.location = "index.html";
+	sessionStorage.removeItem("ngbf.session.token");
+	nj.web.changeUrl("../index.html");
 }
 
 /**

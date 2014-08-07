@@ -17,6 +17,7 @@ public class Card extends BasicEntity{
 	public static String STATUS_LOCKED = "5"; // 已申请，未办理，被锁定 ：超时解锁?
 	public static String STATUS_OWNED = "1"; // 已申请，已办理，已解锁
 	public static String STATUS_WITHDRAWED = "8"; // 已注销，已挂失?
+	public static String STATUS_DELETED = "9"; // 已删除,假删除
 
 	/**
 	 * 序号：12位，第一位是大写字母，剩下11位是数字
