@@ -1,10 +1,11 @@
 package com.coo.u.lyfcb.wx.servlet;
 
+import com.coo.u.lyfcb.wx.INameSpace;
 import com.ericxu131.exwechat.model.message.Message;
-import com.ericxu131.exwechat.web.WechatServlet;
+import com.kingstar.ngbf.s.weixin.util.WeiXinServlet;
 
 //核心servlet
-public class LyfcbServlet extends WechatServlet {
+public class LyfcbServlet extends WeiXinServlet {
 
 	/**
 	 * 
@@ -13,13 +14,12 @@ public class LyfcbServlet extends WechatServlet {
 
 	@Override
 	protected String getToken() {
-		// TODO
-		return "sunbingjue";
+		return INameSpace.VALID_TOKEN;
 	}
 
 	@Override
 	protected Message onMessage(Message message) {
-		//调用核心业务类
+		// 调用核心业务类
 		Message resMsg = CoreService.processRequest(message);
 		return resMsg;
 	}

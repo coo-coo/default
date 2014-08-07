@@ -24,7 +24,7 @@ public class LyfcbHelper {
 	}
 
 	public static List<Card> findCardAll(String siteSeq) {
-		System.out.println("-=--=-----------------"+getBizService());
+		System.out.println("-=--=-----------------" + getBizService());
 		return getBizService().findCardAll(siteSeq);
 	}
 
