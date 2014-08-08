@@ -3,9 +3,10 @@ package com.coo.u.lyfcb.wx.servlet;
 import com.coo.u.lyfcb.wx.INameSpace;
 import com.ericxu131.exwechat.model.message.Message;
 import com.kingstar.ngbf.s.weixin.util.WeiXinServlet;
+import com.kingstar.ngbf.u.base.jetty.IJettyServlet;
 
 //核心servlet
-public class LyfcbServlet extends WeiXinServlet {
+public class LyfcbServlet extends WeiXinServlet implements IJettyServlet{
 
 	/**
 	 * 
@@ -22,5 +23,10 @@ public class LyfcbServlet extends WeiXinServlet {
 		// 调用核心业务类
 		Message resMsg = CoreService.processRequest(message);
 		return resMsg;
+	}
+
+	public String getMappingExpression() {
+		// TODO Auto-generated method stub
+		return "servelt/weixin";
 	}
 }

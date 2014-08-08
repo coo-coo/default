@@ -10,13 +10,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.coo</groupId>
 	<artifactId>coo-u-lyfcb-wx</artifactId>
-	<version>0.3.0.0</version>
+	<version>0.4.0.0</version>
 	
 	<dependencies> 
 		<dependency>
 			<groupId>com.kingstar.ngbf</groupId>
 			<artifactId>ngbf-u-base</artifactId>
-			<version>2.3.6.0</version>
+			<version>2.3.12.0</version>
 			<scope>provided</scope>
 		</dependency>
 
