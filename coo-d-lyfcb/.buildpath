@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<buildpath>
+	<buildpathentry kind="src" path="src/main/java"/>
+	<buildpathentry kind="src" path="src/main/lib"/>
+	<buildpathentry kind="src" path="src/main/bin"/>
+	<buildpathentry kind="src" path="src/main/conf"/>
+	<buildpathentry kind="src" path="src/test/java"/>
+	<buildpathentry kind="src" path="src/test/resources"/>
+	<buildpathentry kind="src" path="src/main/assembly"/>
+	<buildpathentry kind="src" path="src/main/scripts"/>
+	<buildpathentry kind="src" path="src/main/docs"/>
+	<buildpathentry kind="src" path="src/main/logs"/>
+	<buildpathentry kind="src" path="src/main/resources"/>
+	<buildpathentry kind="src" path="src/main/web"/>
+	<buildpathentry kind="con" path="org.eclipse.dltk.mod.launching.INTERPRETER_CONTAINER"/>
+	<buildpathentry kind="con" path="org.eclipse.vjet.eclipse.core.JSNATIVE_CONTAINER/JS Native Types"/>
+	<buildpathentry kind="con" path="org.eclipse.vjet.eclipse.core.BROWSER_CONTAINER/Browser SDK"/>
+</buildpath>
