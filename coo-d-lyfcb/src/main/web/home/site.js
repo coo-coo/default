@@ -55,6 +55,7 @@ function loadCards($scope,$http,seq){
 				// $('#alert_dlg').alert();
 				// $scope.cards = msg.records;
 			}
+			alert(msg.records);
 			$scope.cards = msg.records;
 		}
 	);

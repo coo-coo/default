@@ -15,7 +15,6 @@ public class Apply extends BasicEntity {
 	public static String STATUS_START = "0"; // 已申请，未办理
 	public static String STATUS_FINISH = "1"; // 已申请，已办理
 	public static String STATUS_WITHDRAWED = "9"; // 申请后放弃
-	
 	public static String SOURCE_WX = "1"; 	// 微信申请
 
 	/**
@@ -185,6 +184,4 @@ public class Apply extends BasicEntity {
 	public void setSource(String source) {
 		this.source = source;
 	}
-	
-	
 }

@@ -18,6 +18,15 @@
 		<servlet-name>spring-rest</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>weixin</servlet-name>
+		<servlet-class>com.coo.u.lyfcb.wx.servlet.LyfcbServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>weixin</servlet-name>
+		<url-pattern>/servlet/weixin</url-pattern>
+	</servlet-mapping>
 	<!-- 隐掉,匹配过大
 	<servlet-mapping>
 		<servlet-name>spring-rest</servlet-name>

@@ -15,7 +15,7 @@
 	
 	<properties>
 		<process.class.path>com.coo.d.lyfcb.MainProcess</process.class.path>
-		<ngbf-u-base.version>2.3.10.0</ngbf-u-base.version>
+		<ngbf-u-base.version>2.3.12.0</ngbf-u-base.version>
 		<ngbf-s-ntp.version>2.3.5.0</ngbf-s-ntp.version>
 	</properties>
 	
@@ -30,7 +30,7 @@
 		<dependency>
 			<groupId>com.coo</groupId>
 			<artifactId>coo-u-lyfcb-wx</artifactId>
-			<version>0.3.0.0</version>
+			<version>0.4.0.0</version>
 			<scope>compile</scope>
 		</dependency>
 		
@@ -39,6 +39,20 @@
 			<artifactId>coo-s-lyfcb</artifactId>
 			<version>0.3.0.0</version>
 			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.kingstar.ngbf</groupId>
+			<artifactId>ngbf-s-license</artifactId>
+			<version>2.3.0.0</version>
+			<type>jar</type>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.kingstar.ngbf</groupId>
+			<artifactId>ngbf-s-weixin</artifactId>
+			<version>2.3.4.0</version>
+			<type>jar</type>
 		</dependency>
 	</dependencies>
 </project>

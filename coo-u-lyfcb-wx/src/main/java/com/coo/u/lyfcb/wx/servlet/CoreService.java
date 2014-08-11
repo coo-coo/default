@@ -51,7 +51,7 @@ public class CoreService {
 				TextMessage responseMessage = LyfcbHelper
 						.replyTextMessage(message);
 				responseMessage.setContent(String.format("%s",
-						builder.toString() + cardBuilder.toString()));
+						builder.toString() + cardBuilder.toString()+"\n"+"请回复选择的卡号，无需选号请直接回复1"));
 				// 申请单设置站点信息
 				Apply apply = LyfcbHelper.builderApply(message);
 				apply.setSiteSeq(content);
@@ -59,7 +59,7 @@ public class CoreService {
 						.add(message.getFromUserName(), apply);
 				return responseMessage;
 			}
-
+			
 			if (mapCardManager.get(message.getFromUserName()) != null
 					&& (boolean) mapCardManager.get(message.getFromUserName())
 							.containsKey(content)) {
@@ -114,6 +114,15 @@ public class CoreService {
 				}
 				Apply apply = ApplyManager.getInstance().getApply(
 						message.getFromUserName());
+				//姓名
+				apply.setMemberName(info[0]);
+				//手机号
+				apply.setMemberMobile(info[1]) ;
+				//身份证好
+				apply.setMemberIdCard(info[2]);
+				//申请单提交
+				System.out.println(""+info[0]+info[1]+info[2]+"==================================");
+				LyfcbHelper.makeApply(apply);
 				responseMessage.setContent(String.format("%s",
 						"尊敬的" + info[0] + "您好，谢谢您对洛阳公益自行车的关注，您的办卡申请已成功上传，请于"
 								+ LyfcbHelper.getNextDay() + "后，9:00-17:00至"

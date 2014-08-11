@@ -27,6 +27,10 @@ public class LyfcbHelper {
 		return getBizService().findCardAll(siteSeq);
 	}
 
+	public static void makeApply(Apply apply) {
+		getBizService().makeApply(apply);
+	}
+
 	// <站点seq，站点名>
 	private static Map<String, String> map = new HashMap<String, String>();
 
@@ -71,8 +75,10 @@ public class LyfcbHelper {
 	 * @return
 	 */
 	public static IBizService getBizService() {
+		// return (IBizService) SpringContextFactory
+		// .getSpringBean(IBizService.SPRING_KEY_MOCK);
 		return (IBizService) SpringContextFactory
-				.getSpringBean(IBizService.SPRING_KEY_MOCK);
+				.getSpringBean(IBizService.SPRING_KEY_DB);
 	}
 
 	// 回复TextMessage

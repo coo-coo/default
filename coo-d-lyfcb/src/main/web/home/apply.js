@@ -49,6 +49,14 @@ function showApllyDlg($scope,$http,apply,status){
 	// 指定办理状态
 	$("#applyOperatorStatus").attr("value",status);
 	$("#applyOperatorStatusValue").attr("value",applyStatusDict[status]);
+	//办理时间
+	var currentDate = nj.time.date(new Date());
+	var account = sessionStorage.getItem("ngbf.session.account");
+	//班里人
+	$("#applyOperator").attr("value",account);
+	//办理时间
+	$("#applyOperatorTs").attr("value",currentDate);
+   
 	
 	// 指定UUID
 	$("#applyUuid").attr("value",apply.uuid);

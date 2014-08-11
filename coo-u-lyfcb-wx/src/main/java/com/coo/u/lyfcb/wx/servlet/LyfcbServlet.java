@@ -1,13 +1,15 @@
 package com.coo.u.lyfcb.wx.servlet;
 
+import org.springframework.stereotype.Component;
+
 import com.coo.u.lyfcb.wx.INameSpace;
 import com.ericxu131.exwechat.model.message.Message;
 import com.kingstar.ngbf.s.weixin.util.WeiXinServlet;
 import com.kingstar.ngbf.u.base.jetty.IJettyServlet;
 
 //核心servlet
+@Component("lyfcbServlet")
 public class LyfcbServlet extends WeiXinServlet implements IJettyServlet{
-
 	/**
 	 * 
 	 */

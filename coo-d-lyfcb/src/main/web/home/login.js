@@ -10,7 +10,6 @@ function doLogin() {
 	var url = napp.ns.app_rpc_default + "/admin/login/username/"+username+"/password/"+password;
 	
 	// TODO 表单验证
-	
 	$.get(url, function(msg) {
 		if (msg.head.rep_code == '200') {
 			// 存储Token到当前Session中
