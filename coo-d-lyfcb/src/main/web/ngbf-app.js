@@ -5,7 +5,7 @@
 $(document).ready(function() {
 	var url = location.href;
 	var token = sessionStorage.getItem("ngbf.session.token");
-	if(!token && url.indexOf("/login.html") < 0){
+	if (!token && url.indexOf("/login.html") < 0) {
 		location.href = "../home/login.html";
 	}
 });
@@ -21,13 +21,18 @@ napp.head = {
 };
 
 // 定义菜单栏
-napp.menuitems = [{
+napp.menuitems = [ {
 	"id" : "site-mgt",
 	"label" : "站点管理",
-	"value" : "../home/site.html"},
-	{"id" : "apply-mgt",
+	"value" : "../home/site.html"
+}, {
+	"id" : "apply-mgt",
 	"label" : "申请管理",
 	"value" : "../home/apply.html"
+}, {
+	"id" : "apply-search",
+	"label" : "申请单查询",
+	"value" : "../home/applySearch.html"
 }];
 
 // 应用上下文命名空间

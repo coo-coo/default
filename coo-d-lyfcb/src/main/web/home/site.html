@@ -53,12 +53,12 @@
 				<table class='table table-striped'>
 					<thead>
 						<tr>
-							<th style="width: 10%; text-align: center;">序号</th>
+							<th style="width: 5%; text-align: center;">序号</th>
 							<th style="width: 10%; text-align: center;">名称</th>
-							<th style="width: 30%; text-align: center;">地址</th>
-							<th style="width: 20%; text-align: center;">电话</th>
-							<th style="width: 10%; text-align: center;">服务时间</th>
-							<th style="width: 15%; text-align: center;">卡号</th>
+							<th style="width: 25%; text-align: center;">地址</th>
+							<th style="width: 15%; text-align: center;">电话</th>
+							<th style="width: 15%; text-align: center;">服务时间</th>
+							<th style="width: 25%; text-align: center;">操作</th>
 						</tr>
 					</thead>
 					<tbody id="codeBody">
@@ -71,7 +71,11 @@
 							<td>{{item.startTime}}-{{item.endTime}}</td>
 							<td>
 								<div style="align: center">
-									<span class="btn btn-success" ng-click="loadCards(item.seq)">卡号</span>
+									<span class="glyphicon glyphicon-pencil"
+										ng-click="showSiteUpdateDlg(item)">修改</span> <span
+										class="glyphicon glyphicon-remove"
+										ng-click="showSiteDeleteDlg(item)">删除</span> <span
+										class="btn btn-success" ng-click="loadCards(item.seq)">卡号</span>
 									<span class="btn btn-success"
 										ng-click="showCardCreateDlg(item.seq)">创建</span>
 								</div>
@@ -117,7 +121,7 @@
 		</div>
 	</div>
 
-	<!-- 站点信息 -->
+	<!-- 新建站点信息 -->
 	<div class="modal fade" id="site_dlg" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -181,6 +185,112 @@
 						onclick="doSiteSave()">保存</button>
 				</div>
 
+			</div>
+		</div>
+	</div>
+
+
+	<!-- 修改信息 -->
+	<div class="modal fade" id="site_dlg_update" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title">修改站点</h4>
+				</div>
+				<div class="modal-body">
+					<div class="container">
+						<form class="form-horizontal" role="form" id="form_site">
+							<div class="form-group">
+								<div class="col-sm-4">
+									<input type="hidden" class="form-control" id="u_uuid"
+										placeholder="序号:例如001">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-sm-1">序号</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="u_siteSeq"
+										placeholder="序号:例如001" disabled>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-1">名称</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="u_siteName"
+										placeholder="XX站点">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-1">地址</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="u_siteAddress"
+										placeholder="XXX">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-1">电话</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="u_siteTelephone"
+										placeholder="61234567">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-1">服务时间</label>
+								<div class="col-sm-2">
+									<input type="text" value="9:00" class="form-control"
+										id="u_siteStartTime" placeholder="9:00">
+								</div>
+								<div class="col-sm-2">
+									<input type="text" value="17:00" class="form-control"
+										id="u_siteEndTime" placeholder="17:00">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<span id="infoSiteSuccess" class="label label-success"></span> <span
+						id="infoSiteError" class="label label-danger"></span>
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						aria-hidden="true">关闭</button>
+					<button type="button" class="btn btn-primary"
+						onclick="doSiteUpdate()">修改</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- 删除信息 -->
+	<div class="modal fade" id="site_dlg_del" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title">确认删除站点</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="col-sm-4">
+							<input type="hidden" class="form-control" id="del_u_uuid"
+								placeholder="序号:例如001">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<span id="infoSiteSuccess" class="label label-success"></span> <span
+						id="infoSiteError" class="label label-danger"></span>
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						aria-hidden="true">关闭</button>
+					<button type="button" class="btn btn-primary"
+						onclick="doSiteDelete()">删除</button>
+				</div>
 			</div>
 		</div>
 	</div>
