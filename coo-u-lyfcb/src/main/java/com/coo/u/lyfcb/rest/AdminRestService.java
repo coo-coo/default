@@ -3,6 +3,7 @@ package com.coo.u.lyfcb.rest;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.mortbay.log.Log;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -106,6 +107,30 @@ public class AdminRestService {
 		}
 		return sm;
 	}
+	
+	@RequestMapping(value = "apply/all", method = RequestMethod.GET)
+	@ResponseBody
+	public SimpleMessage<Apply> applyAll() {
+		SimpleMessage<Apply> sm = new SimpleMessage<Apply>(SimpleMessageHead.OK);
+		// 从MYSQL数据库中获得
+		List<Apply> items = AdminHelper.findApplyAll();
+		for (Apply item : items) {
+			sm.addRecord(item);
+		}
+		return sm;
+	}
+	
+	@RequestMapping(value = "apply/site/{site}/status/{status}", method = RequestMethod.GET)
+	@ResponseBody
+	public SimpleMessage<Apply> applyAll(@PathVariable("site") String site,@PathVariable("status") String status) {
+		SimpleMessage<Apply> sm = new SimpleMessage<Apply>(SimpleMessageHead.OK);
+		// 从MYSQL数据库中获得
+		List<Apply> items = AdminHelper.findApplyBySite(site, status);
+		for (Apply item : items) {
+			sm.addRecord(item);
+		}
+		return sm;
+	}
 
 	@RequestMapping(value = "apply/update/uuid/{uuid}/status/{status}/token/{token}", method = RequestMethod.GET)
 	@ResponseBody
@@ -167,6 +192,39 @@ public class AdminRestService {
 					SimpleMessageHead.BIZ_ERROR.repMsg(e.getMessage()));
 		}
 		return sm;
+	}
+	
+	
+	/**
+	 * 创建站点:POST , var param = { "info" : '{"seq":"' + seq + '","name":"' + name
+	 * + '","address":"' + address + '","telephone":"' + telephone +
+	 * '","startTime":"' + startTime + '","endTime":"' + endTime + '"}'};
+	 */
+	@RequestMapping(value = "site/update", method = RequestMethod.POST)
+	@ResponseBody
+	public SimpleMessage<?> siteUpdate(String info) {
+		// 创建返回消息
+		SimpleMessage<?> sm = SimpleMessage.ok();
+		try {
+			// 进行修改
+			AdminHelper.updateSite(info);
+		} catch (Exception e) {
+			sm = SimpleMessage.blank().head(
+					SimpleMessageHead.BIZ_ERROR.repMsg(e.getMessage()));
+		}
+		return sm;
+	}
+	
+	
+	/**
+	 * TODO 卡号删除操作，操作员信息Token
+	 */
+	@RequestMapping(value = "site/delete/uuid/{uuid}", method = RequestMethod.GET)
+	@ResponseBody
+	public SimpleMessage<?> siteDelete(@PathVariable("uuid") String uuid) {
+		logger.debug("cardDelete:\t" + uuid);
+		AdminHelper.deleteSite(uuid);
+		return SimpleMessage.ok();
 	}
 
 	/**

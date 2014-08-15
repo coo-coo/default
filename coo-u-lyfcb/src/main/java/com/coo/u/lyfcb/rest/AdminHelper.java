@@ -1,11 +1,13 @@
 package com.coo.u.lyfcb.rest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
+import org.mortbay.log.Log;
 
 import com.coo.s.lyfcb.model.Apply;
 import com.coo.s.lyfcb.model.Card;
@@ -20,6 +22,7 @@ import com.kingstar.ngbf.s.ntp.spi.Token;
 import com.kingstar.ngbf.s.util.NgbfRuntimeException;
 import com.kingstar.ngbf.s.util.PubString;
 import com.kingstar.ngbf.s.util.SpringContextFactory;
+
 //import com.kingstar.ngbf.s.util.StringUtil;
 
 public final class AdminHelper {
@@ -90,10 +93,68 @@ public final class AdminHelper {
 	 */
 	@SuppressWarnings("unchecked")
 	public static List<Apply> findApplyAll(String status) {
+		if (status.equals("1234")) {
+			String sql = "select * from " + Apply.T_NAME;
+			return (List<Apply>) JdbcManager.find(sql, null, Apply.class);
+		}
 		String sql = "select * from " + Apply.T_NAME + " where status = ?";
 		Object[] params = new Object[1];
 		params[0] = status;
 		return (List<Apply>) JdbcManager.find(sql, params, Apply.class);
+	}
+
+	/**
+	 * 获得所有的申请单
+	 */
+	@SuppressWarnings("unchecked")
+	public static List<Apply> findApplyAll() {
+		String sql = "select * from " + Apply.T_NAME;
+		return (List<Apply>) JdbcManager.find(sql, null, Apply.class);
+	}
+
+	// 暂时定义查询所有的状态为1234，所有站点的key也为1234,,rest中不能有特殊字符
+	private static String statusAll = "1234";
+
+	/**
+	 * 获得指定状态指定站点的申请列表
+	 */
+	@SuppressWarnings("unchecked")
+	public static List<Apply> findApplyBySite(String site, String status) {
+		// 查询所有
+		if (site.equals(statusAll) && status.equals(statusAll)) {
+			String sql = "select * from " + Apply.T_NAME;
+			logger.debug(sql);
+			return (List<Apply>) JdbcManager.find(sql, null, Apply.class);
+		}
+
+		// 查询某个站点的
+		if (!site.equals(statusAll) && status.equals(statusAll)) {
+			String sql = "select * from " + Apply.T_NAME + " where siteSeq = ?";
+			logger.debug(sql);
+			Object[] params = new Object[1];
+			params[0] = site;
+			return (List<Apply>) JdbcManager.find(sql, params, Apply.class);
+		}
+
+		// 查询某个状态的
+		if (site.equals(statusAll) && !status.equals(statusAll)) {
+			String sql = "select * from " + Apply.T_NAME + " where status = ?";
+			logger.debug(sql);
+			Object[] params = new Object[1];
+			params[0] = status;
+			return (List<Apply>) JdbcManager.find(sql, params, Apply.class);
+		}
+
+		// 查询某个状态的
+		if (!site.equals(statusAll) && !status.equals(statusAll)) {
+			String sql = "select * from " + Apply.T_NAME
+					+ " where siteSeq = ? and status = ?";
+			Object[] params = new Object[2];
+			params[0] = site;
+			params[1] = status;
+			return (List<Apply>) JdbcManager.find(sql, params, Apply.class);
+		}
+		return new ArrayList<Apply>();
 	}
 
 	/**
@@ -113,9 +174,10 @@ public final class AdminHelper {
 		logger.debug(sql);
 		JdbcManager.execute(sql, params);
 	}
-	
+
 	/**
 	 * 删除卡信息,假删除
+	 * 
 	 * @param uuid
 	 * @throws NgbfRuntimeException
 	 */
@@ -123,6 +185,20 @@ public final class AdminHelper {
 		String sql = "update " + Card.T_NAME + " set status='9' where uuid=?";
 		// TODO 操作人信息
 		// Token t = getAccountToken(token);
+		Object[] params = new Object[1];
+		params[0] = uuid;
+		logger.debug(sql);
+		JdbcManager.execute(sql, params);
+	}
+
+	/**
+	 * 删除站点
+	 * 
+	 * @param uuid
+	 * @throws NgbfRuntimeException
+	 */
+	public static void deleteSite(String uuid) throws NgbfRuntimeException {
+		String sql = "delete from t_site where uuid=?";
 		Object[] params = new Object[1];
 		params[0] = uuid;
 		logger.debug(sql);
@@ -157,6 +233,36 @@ public final class AdminHelper {
 				+ "(uuid,seq,name,address,telephone,startTime,endTime,deposit,longitude,latitude,cityCode,note)"
 				+ " values(?,?,?,?,?,?,?,200.0,0.0,0.0,'LY','')";
 		logger.debug(sql);
+		JdbcManager.execute(sql, params);
+	}
+
+	/**
+	 * 修改站点信息,保存HTML传过来的Json字符串
+	 */
+	public static void updateSite(String jsonInfo) throws NgbfRuntimeException {
+		Map<String, Object> item = AdminHelper.transform(jsonInfo);
+		String uuid = getStr(item, "uuid");
+		String seq = getStr(item, "seq");
+		String name = getStr(item, "name");
+		String address = getStr(item, "address");
+		String telephone = getStr(item, "telephone");
+		String startTime = getStr(item, "startTime");
+		String endTime = getStr(item, "endTime");
+		// 合法性判定
+		if (PubString.isNullOrSpace(seq)) {
+			throw new NgbfRuntimeException("站点序号不能为空!");
+		}
+		Object[] params = new Object[6];
+		params[0] = name;
+		params[1] = address;
+		params[2] = telephone;
+		params[3] = startTime;
+		params[4] = endTime;
+		params[5] = uuid;
+		String sql = "update "
+				+ Site.T_NAME
+				+ " set name=?,address=?,telephone=?,startTime=?,endTime=?  where uuid=?";
+		logger.debug(sql + ":" + uuid + "：" + seq + ":" + name);
 		JdbcManager.execute(sql, params);
 	}
 
@@ -202,7 +308,7 @@ public final class AdminHelper {
 		return (IBizService) SpringContextFactory
 				.getSpringBean(IBizService.SPRING_KEY_DB);
 	}
-	
+
 	public static String genericUUid() {
 		UUID uuid = UUID.randomUUID();
 		return uuid.toString().replace("-", "");
