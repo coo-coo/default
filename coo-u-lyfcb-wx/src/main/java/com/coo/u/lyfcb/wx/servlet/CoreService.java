@@ -167,7 +167,7 @@ public class CoreService {
 				builder.append("4、每个市民只能办一张借车卡，如有重复系统自动停用其中一张，且退卡时需收取20元重复办卡费。");
 				
 				responseMessage.setContent(String
-						.format("Hi:%s", builder.toString()));
+						.format("%s", builder.toString()));
 				return responseMessage;
 			}
 
@@ -177,7 +177,7 @@ public class CoreService {
 				TextMessage responseMessage = LyfcbHelper
 						.replyTextMessage(message);
 				responseMessage.setContent(String
-						.format("Hi:%s", "您好！ 感谢您选择低碳环保，平安出行的洛阳市福彩公益自行车。关注洛阳市公益自行车管理中心公众号，为您的出行保驾护航。在线客服上午9：00-11：00,下午2：00-5：00。市民热线：80881000。地址：洛阳市九都路与解放路交叉口向东50米。低碳生活，感谢有您！"));
+						.format("%s", "您好！ 感谢您选择低碳环保，平安出行的洛阳市福彩公益自行车。关注洛阳市公益自行车管理中心公众号，为您的出行保驾护航。在线客服上午9：00-11：00,下午2：00-5：00。市民热线：80881000。地址：洛阳市九都路与解放路交叉口向东50米。低碳生活，感谢有您！"));
 				return responseMessage;
 			}
 		}
