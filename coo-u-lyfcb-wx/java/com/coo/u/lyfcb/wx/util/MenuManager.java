@@ -28,13 +28,15 @@ public class MenuManager {
 				System.out.println("菜单创建成功！");
 			else
 				System.out.println("菜单创建失败，错误码：" + result);
+			
+			
 			// 调用接口删除菜单
-			// int result = WeixinUtil.deleteMenu(at.getToken());
-			// 判断菜单删除结果
-            // if (0 == result)
-            // System.out.println("菜单删除成功！");
-            // else
-            // System.out.println("菜单删除失败，错误码：" + result);
+//			 int result = WeixinUtil.deleteMenu(at.getToken());
+////			 判断菜单删除结果
+//             if (0 == result)
+//             System.out.println("菜单删除成功！");
+//             else
+//             System.out.println("菜单删除失败，错误码：" + result);
 		}
 	}
 
@@ -44,20 +46,34 @@ public class MenuManager {
 	 * @return
 	 */
 	private static Menu getMenu() {
-		Button btn11 = Button.view().name("双色球")
-				.url("http://www.lyflcp.com.cn/");
-		Button btn12 = Button.view().name("福彩3D")
-				.url("http://www.lyflcp.com.cn/");
-		Button btn13 = Button.view().name("东方6+1")
-				.url("http://www.lyflcp.com.cn/");
-		Button btn14 = Button.view().name("河南幸运彩")
-				.url("http://www.lyflcp.com.cn/");
-		Button btn15 = Button.view().name("购彩大厅")
-				.url("http://www.lyflcp.com.cn/");
+//		Button btn11 = Button.view().name("双色球")
+//				.url("http://www.lyflcp.com.cn/");
+//		Button btn12 = Button.view().name("福彩3D")
+//				.url("http://www.lyflcp.com.cn/");
+//		Button btn13 = Button.view().name("15选5")
+//				.url("http://www.lyflcp.com.cn/");
+//		Button btn14 = Button.view().name("河南幸运彩")
+//				.url("http://www.lyflcp.com.cn/");
+//		Button btn15 = Button.view().name("购彩大厅")
+//				.url("http://www.lyflcp.com.cn/");
+		
+		
+		Button btn11 = Button.click().name("双色球")
+				.key(INameSpace.MENU_KEY_SSQ);
+		Button btn12 = Button.click().name("福彩3D")
+				.key(INameSpace.MENU_KEY_FC3D);
+		Button btn13 = Button.click().name("22选5")
+				.key(INameSpace.MENU_KEY_15X5);
+		Button btn14 = Button.click().name("河南幸运彩")
+				.key(INameSpace.MENU_KEY_HNXYC);
+		Button btn15 = Button.click().name("购彩大厅")
+				.key(INameSpace.MENU_KEY_GCDT);
+		
+		
 
 		////////////////////////////////////////////////
 		Button btn21 = Button.view().name("站点地图")
-				.url("http://www.lyflcp.com.cn/");
+				.url("http://www.lyflcp.com.cn/zxc/map.asp");
 		Button btn22 = Button.click().name("在线申请")
 				.key(INameSpace.MENU_KEY_ZXSQ);
 		Button btn23 = Button.click().name("办卡须知")
@@ -66,10 +82,15 @@ public class MenuManager {
 				.key(INameSpace.MENU_KEY_ZXKF);
 
 		// //////////////////////////////////////////////
-		Button btn31 = Button.view().name("乐在骑中")
-				.url("http://www.lyflcp.com.cn/");
-		Button btn32 = Button.view().name("下载客户端")
-				.url("http://www.lyflcp.com.cn/");
+//		Button btn31 = Button.view().name("乐在骑中")
+//				.url("http://www.lyflcp.com.cn/");
+//		Button btn32 = Button.view().name("下载客户端")
+//				.url("http://www.lyflcp.com.cn/");
+		
+		Button btn31 = Button.click().name("乐在骑中")
+				.key(INameSpace.MENU_KEY_LZQZ);
+		Button btn32 = Button.click().name("下载客户端")
+				.key(INameSpace.MENU_KEY_XZKHD);
 
 		ComplexButton mainBtn1 = new ComplexButton("买彩票").buttons(btn11, btn12,
 				btn13, btn14, btn15);

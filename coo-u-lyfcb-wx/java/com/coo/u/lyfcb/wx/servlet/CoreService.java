@@ -36,15 +36,15 @@ public class CoreService {
 			if (map.containsKey(content)) {
 				List<Card> cards = LyfcbHelper.findCardAll(content);
 				StringBuilder builder = new StringBuilder();
-				builder.append(map.get(content) + ":" + "\n\n");
-				builder.append("可领取卡片：" + cards.size() + "张" + "\n\n");
-				builder.append("可领取卡号：" + "\n\n");
+				builder.append(map.get(content) + ":" + "\n");
+				builder.append("可领取卡片：" + cards.size() + "张" + "\n");
+				builder.append("可领取卡号：" + "\n");
 				StringBuilder cardBuilder = new StringBuilder();
 				// mapCard.clear();
 				Map<String, String> mapCard = new HashMap<String, String>();
 				for (Card card : cards) {
 					cardBuilder.append(card.getSiteSeq() + ":" + card.getSeq()
-							+ "\n\n");
+							+ "\n");
 					mapCard.put(card.getSeq(), card.getSeq());
 					mapCardManager.put(message.getFromUserName(), mapCard);
 				}
@@ -97,6 +97,8 @@ public class CoreService {
 					apply.setCardSeq(radomCardNo);
 					ApplyManager.getInstance().add(message.getFromUserName(),
 							apply);
+				}else{
+					responseMessage.setContent(String.format("%s","该站点无卡片资源申请！"));
 				}
 				return responseMessage;
 			}
@@ -143,11 +145,11 @@ public class CoreService {
 				StringBuilder builder = new StringBuilder();
 				for (Site site : sites) {
 					builder.append(site.getSeq() + ":" + site.getName()
-							+ "\n\n");
+							+ "\n");
 				}
 				responseMessage.setContent(String
 						.format("您可以在下列站点领取卡片，请回复序号查看该站点可领取的卡片数量和具体卡号:"
-								+ "\n\n" + "%s", builder.toString()));
+								+ "\n" + "%s", builder.toString()));
 				return responseMessage;
 			}
 
@@ -156,8 +158,16 @@ public class CoreService {
 				// 处理逻辑写在这里
 				TextMessage responseMessage = LyfcbHelper
 						.replyTextMessage(message);
+				StringBuilder builder = new StringBuilder();
+				builder.append("办卡时间：上午9:00--11：00,下午2：00--5:00"+"\n");
+				builder.append("办卡须知："+"\n");
+				builder.append("1、本地居民需携带本人身份证或户口本原件及复印件、办卡时需缴纳200元保证金办理；"+"\n");
+				builder.append("2、外地居民凭二代身份证与暂住证或学生证（相关单位证明），及其复印件，缴纳200元保证金办理；"+"\n");
+				builder.append("3、外地游客，凭二代身份证、军官证、护照等有效证件原件及复印缴纳600元保证金办理；"+"\n");
+				builder.append("4、每个市民只能办一张借车卡，如有重复系统自动停用其中一张，且退卡时需收取20元重复办卡费。");
+				
 				responseMessage.setContent(String
-						.format("Hi:%s", "你点击了办卡须知菜单！"));
+						.format("Hi:%s", builder.toString()));
 				return responseMessage;
 			}
 
@@ -167,7 +177,7 @@ public class CoreService {
 				TextMessage responseMessage = LyfcbHelper
 						.replyTextMessage(message);
 				responseMessage.setContent(String
-						.format("Hi:%s", "你点击了在线客服菜单！"));
+						.format("Hi:%s", "您好！ 感谢您选择低碳环保，平安出行的洛阳市福彩公益自行车。关注洛阳市公益自行车管理中心公众号，为您的出行保驾护航。在线客服上午9：00-11：00,下午2：00-5：00。市民热线：80881000。地址：洛阳市九都路与解放路交叉口向东50米。低碳生活，感谢有您！"));
 				return responseMessage;
 			}
 		}
