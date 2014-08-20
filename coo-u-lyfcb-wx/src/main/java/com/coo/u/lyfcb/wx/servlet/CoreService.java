@@ -27,8 +27,11 @@ public class CoreService {
 	public static synchronized Message processRequest(Message message) {
 		// 所有的站点
 		List<Site> sites = LyfcbHelper.findSiteAll();
-		Map<String, String> map = LyfcbHelper.getMap();
-		// 申请单信息
+		Map<String, String> map = new HashMap<String, String>();
+		for (Site site : sites) {
+			map.put(site.getSeq(), site.getName());
+		}
+		// 申请单卡号信息设置
 		// 接收文本信息
 		if (message instanceof TextMessage) {
 			TextMessage textMessage = (TextMessage) message;

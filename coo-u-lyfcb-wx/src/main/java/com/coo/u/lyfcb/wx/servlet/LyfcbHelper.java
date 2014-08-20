@@ -35,14 +35,17 @@ public class LyfcbHelper {
 	private static Map<String, String> map = new HashMap<String, String>();
 
 	public static Map<String, String> getMap() {
-		return map;
-	}
-
-	static {
 		for (Site site : findSiteAll()) {
 			map.put(site.getSeq(), site.getName());
 		}
+		return map;
 	}
+
+//	static {
+//		for (Site site : findSiteAll()) {
+//			map.put(site.getSeq(), site.getName());
+//		}
+//	}
 
 	// 创建申请单
 	public static Apply builderApply(Message message) {
