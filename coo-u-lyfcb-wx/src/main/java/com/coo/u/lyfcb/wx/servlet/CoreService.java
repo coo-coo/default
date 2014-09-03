@@ -108,8 +108,9 @@ public class CoreService {
 
 			// 基本信息
 			// //////////////////////////////////////////////////////////////////
-			if (content.indexOf(",") != -1) {
-				String[] info = PubString.stringToArray(content, ",");
+			if (content.indexOf(",") != -1||content.indexOf("，") != -1) {
+				String formatContent = content.replace("，", ",");
+				String[] info = PubString.stringToArray(formatContent, ",");
 				TextMessage responseMessage = LyfcbHelper
 						.replyTextMessage(message);
 				if (info.length != 3) {
@@ -126,7 +127,7 @@ public class CoreService {
 				//身份证好
 				apply.setMemberIdCard(info[2]);
 				//申请单提交
-				System.out.println(""+info[0]+info[1]+info[2]+"==================================");
+				
 				LyfcbHelper.makeApply(apply);
 				responseMessage.setContent(String.format("%s",
 						"尊敬的" + info[0] + "您好，谢谢您对洛阳公益自行车的关注，您的办卡申请已成功上传，请于"
