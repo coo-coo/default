@@ -15,7 +15,7 @@ public class Apply extends BasicEntity {
 	public static String STATUS_START = "0"; // 已申请，未办理
 	public static String STATUS_FINISH = "1"; // 已申请，已办理
 	public static String STATUS_WITHDRAWED = "9"; // 申请后放弃
-	public static String SOURCE_WX = "1"; 	// 微信申请
+	public static String SOURCE_WX = "1"; // 微信申请
 
 	/**
 	 * 场所序号，参见Site.seq
@@ -72,7 +72,7 @@ public class Apply extends BasicEntity {
 	 */
 	@Column
 	private String status = STATUS_START;
-	
+
 	@Column
 	private String note = "";
 	/**
@@ -80,6 +80,26 @@ public class Apply extends BasicEntity {
 	 */
 	@Column
 	private String source = SOURCE_WX;
+	/**
+	 * 性别
+	 */
+	@Column
+	private String gender = "";
+	/**
+	 * 家庭住址
+	 */
+	@Column
+	private String address = "";
+	/**
+	 * 临时联系人
+	 */
+	@Column
+	private String tempContact = "";
+	/**
+	 * 临时联系人手机号
+	 */
+	@Column
+	private String tempContactPhone = "";
 
 	public String getSiteSeq() {
 		return siteSeq;
@@ -183,5 +203,37 @@ public class Apply extends BasicEntity {
 
 	public void setSource(String source) {
 		this.source = source;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getTempContact() {
+		return tempContact;
+	}
+
+	public void setTempContact(String tempContact) {
+		this.tempContact = tempContact;
+	}
+
+	public String getTempContactPhone() {
+		return tempContactPhone;
+	}
+
+	public void setTempContactPhone(String tempContactPhone) {
+		this.tempContactPhone = tempContactPhone;
 	}
 }
