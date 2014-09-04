@@ -92,8 +92,8 @@ public class CoreService {
 					responseMessage.setContent(String.format("%s",
 							"您已预订一张公益自行车卡，卡号是：" + radomCardNo
 									+ "(此处是系统随机分配的卡号)" + "\n" + "请输入个人信息格式如下:"
-									+ "\n" + "姓名,手机号,身份证号" + "\n" + "例如:\n"
-									+ "张三,152****,342201****"));
+									+ "\n" + "姓名,手机号,身份证号,性别,家庭地址,临时联系人,临时联系人手机号" + "\n" + "例如:\n"
+									+ "张三,152****,342201****,男,上海浦东新区,李四,139****"));
 					// 申请单卡号信息设置
 					Apply apply = ApplyManager.getInstance().getApply(
 							message.getFromUserName());
@@ -113,7 +113,7 @@ public class CoreService {
 				String[] info = PubString.stringToArray(formatContent, ",");
 				TextMessage responseMessage = LyfcbHelper
 						.replyTextMessage(message);
-				if (info.length != 3) {
+				if (info.length != 7) {
 					responseMessage.setContent(String
 							.format("%s", "您输入格式 不正确!"));
 					return responseMessage;
@@ -124,10 +124,17 @@ public class CoreService {
 				apply.setMemberName(info[0]);
 				//手机号
 				apply.setMemberMobile(info[1]) ;
-				//身份证好
+				//身份证号
 				apply.setMemberIdCard(info[2]);
+				//性别
+				apply.setGender(info[3]);
+				//家庭地址
+				apply.setAddress(info[4]);
+				//临时联系人
+				apply.setTempContact(info[5]);
+				//临时联系人手机号
+				apply.setTempContactPhone(info[6]);
 				//申请单提交
-				
 				LyfcbHelper.makeApply(apply);
 				responseMessage.setContent(String.format("%s",
 						"尊敬的" + info[0] + "您好，谢谢您对洛阳公益自行车的关注，您的办卡申请已成功上传，请于"

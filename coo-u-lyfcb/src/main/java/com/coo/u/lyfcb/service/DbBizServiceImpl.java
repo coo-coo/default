@@ -92,7 +92,7 @@ public class DbBizServiceImpl implements IBizService {
 	@Override
 	public void makeApply(Apply apply) {
 		// 存储一条申请记录
-		Object[] params = new Object[8];
+		Object[] params = new Object[12];
 		params[0] = genericUUid();
 		params[1] = apply.getSiteSeq();
 		params[2] = apply.getCardSeq();
@@ -101,10 +101,14 @@ public class DbBizServiceImpl implements IBizService {
 		params[5] = apply.getMemberMobile();
 		params[6] = apply.getMemberIdCard();
 		params[7] = System.currentTimeMillis();
+		params[8] = apply.getGender();
+		params[9] = apply.getAddress();
+		params[10] = apply.getTempContact();
+		params[11] = apply.getTempContactPhone();
 		String sql = "insert into "
 				+ Apply.T_NAME
-				+ "(uuid,siteSeq,cardSeq,memberOpenId,memberName,memberMobile,memberIdCard,applyTs,operator,operatorTs,status,note)"
-				+ " values(?,?,?,?,?,?,?,?,'',0,'0','')";
+				+ "(uuid,siteSeq,cardSeq,memberOpenId,memberName,memberMobile,memberIdCard,applyTs,operator,operatorTs,status,note,gender,address,tempContact,tempContactPhone)"
+				+ " values(?,?,?,?,?,?,?,?,'',0,'0','',?,?,?,?)";
 		logger.debug(sql);
 		JdbcManager.execute(sql, params);
 
